@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gamenglish – English that sticks</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3eddc;--ink:#1b2e2a;--coral:#e8694f;--lime:#d4e157;--sky:#82b4da;--gold:#e8b23a;--card:#fffaf0;--line:#1b2e2a33}
+@media (prefers-color-scheme:dark){:root{color-scheme:dark;--bg:#14211e;--ink:#f3eddc;--card:#1f332e;--line:#f3eddc33}}
+*{box-sizing:border-box}
+html{scroll-padding-top:70px;scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 "DM Sans",system-ui,sans-serif}
+h1,h2,.d{font-family:"Bricolage Grotesque","DM Sans",system-ui,sans-serif;letter-spacing:-.04em;line-height:.95;margin:0}
+a{color:inherit}
+[hidden]{display:none!important}
+nav{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:26px;padding:14px 5vw;background:var(--bg);border-bottom:1px solid var(--line)}
+.logo{display:flex;align-items:center;gap:10px;font:800 18px "Bricolage Grotesque",sans-serif;text-decoration:none;margin-right:auto}
+.logo i{width:38px;height:38px;border-radius:50%;background:var(--lime);color:#1b2e2a;border:2px solid #1b2e2a;display:grid;place-items:center;font-style:normal}
+nav a.l{text-decoration:none;font-weight:500}
+.who{font-weight:700;font-size:15px}
+.btn{font:700 16px "DM Sans",sans-serif;background:#1b2e2a;color:#f3eddc;border:0;border-radius:40px;padding:15px 28px;cursor:pointer;box-shadow:5px 5px 0 var(--coral);text-decoration:none;display:inline-block}
+.btn:active{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--coral)}
+.btn.o{background:transparent;color:var(--ink);border:2px solid var(--ink);box-shadow:3px 3px 0 var(--ink);padding:9px 20px}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+.hero{display:grid;grid-template-columns:1.1fr 1fr;min-height:640px}
+.hl{padding:8vh 5vw 6vh;display:flex;flex-direction:column;justify-content:center;gap:26px}
+.hl h1{font-size:clamp(54px,9vw,128px);font-weight:800}
+.hl h1 em{color:var(--coral);font-style:italic;display:block;margin-left:.6em}
+.hl p{max-width:30em;margin:0;font-size:20px}
+.hr{background:var(--sky);position:relative;overflow:hidden;min-height:440px;border-left:1px solid var(--line)}
+.bot{position:absolute;left:50%;top:50%;width:min(300px,70%);aspect-ratio:1/1.5;transform:translate(-50%,-48%)}
+.bot .h{position:absolute;left:18%;top:0;width:64%;aspect-ratio:1;border-radius:50%;background:#fffaf0;border:3px solid #1b2e2a;z-index:2}
+.bot .h:before,.bot .h:after{content:"";position:absolute;top:44%;width:7px;height:12px;border-radius:50%;background:#1b2e2a;left:30%}
+.bot .h:after{left:auto;right:30%}
+.bot .h b{position:absolute;left:36%;right:36%;top:62%;height:14px;border-bottom:3px solid #1b2e2a;border-radius:0 0 50% 50%}
+.bot .b{position:absolute;left:5%;right:5%;top:42%;bottom:0;background:var(--coral);border:3px solid #1b2e2a;border-radius:45% 45% 22% 22%/30% 30% 14% 14%}
+.bot .b span{position:absolute;left:50%;top:32%;transform:translateX(-50%);width:34%;aspect-ratio:1;border-radius:50%;background:var(--lime);border:3px solid #1b2e2a;display:grid;place-items:center;font:800 26px "Bricolage Grotesque",sans-serif;color:#1b2e2a}
+.bot .a{position:absolute;top:52%;width:34%;height:15%;background:#fffaf0;border:3px solid #1b2e2a;border-radius:30px;left:-26%;transform:rotate(-24deg);z-index:1}
+.bot .a.r{left:auto;right:-26%;transform:rotate(24deg)}
+.tag{position:absolute;font:800 18px "Bricolage Grotesque",sans-serif;padding:10px 16px;border:2.5px solid #1b2e2a;border-radius:8px;color:#1b2e2a;box-shadow:4px 4px 0 #1b2e2a;transform:rotate(-6deg)}
+.t1{left:7%;top:16%;background:#fffaf0}.t2{right:5%;top:30%;background:var(--lime);transform:rotate(7deg)}.t3{left:8%;bottom:14%;background:var(--coral);color:#fffaf0;transform:rotate(5deg)}
+section{padding:80px 5vw}
+.wrap{max-width:900px;margin:0 auto}
+h2{font-size:clamp(40px,6vw,76px);font-weight:800;margin-bottom:14px}
+.card{background:var(--card);border:2.5px solid var(--ink);border-radius:26px;padding:clamp(20px,4vw,40px);box-shadow:8px 8px 0 var(--ink);margin-top:28px}
+/* login */
+.login{max-width:460px;margin:0 auto}
+label{display:block;font-weight:700;font-size:15px;margin:16px 0 6px}
+input{width:100%;font:500 18px "DM Sans",sans-serif;padding:14px 16px;border:2.5px solid var(--ink);border-radius:14px;background:var(--bg);color:var(--ink)}
+.err{color:var(--coral);font-weight:700;min-height:26px;margin:12px 0 0}
+/* game */
+.hud{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-weight:700;margin-bottom:18px}
+.bar{height:12px;border:2px solid var(--ink);border-radius:8px;overflow:hidden;margin-bottom:26px}
+.bar div{height:100%;width:0;background:var(--lime);transition:width .3s}
+.q{font:800 clamp(26px,4.5vw,40px)/1.1 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.hint{opacity:.7;margin:8px 0 22px;font-size:15px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.opt{font:500 18px "DM Sans",sans-serif;text-align:left;padding:16px 18px;border:2.5px solid var(--ink);border-radius:14px;background:var(--bg);color:var(--ink);cursor:pointer}
+.opt:hover:not(:disabled){background:var(--sky);color:#1b2e2a}
+.opt.ok{background:var(--lime);color:#1b2e2a}.opt.no{background:var(--coral);color:#fffaf0}
+.fb{min-height:60px;margin-top:20px;display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.fb b{font:800 24px "Bricolage Grotesque",sans-serif}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:28px}
+.st{border:2.5px solid var(--ink);border-radius:18px;padding:18px;background:var(--card)}
+.st b{display:block;font:800 44px "Bricolage Grotesque",sans-serif;letter-spacing:-.04em}
+.club{background:#1b2e2a;color:#f3eddc}
+.club .card{color:var(--ink);background:var(--card)}
+table{width:100%;border-collapse:collapse;font-size:16px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+code,textarea{font:500 14px ui-monospace,Menlo,monospace}
+textarea{width:100%;height:90px;padding:12px;border:2.5px solid var(--ink);border-radius:14px;background:var(--bg);color:var(--ink);margin-top:10px}
+footer{padding:30px 5vw;font-size:14px;opacity:.7}
+@media(max-width:820px){.hero{grid-template-columns:1fr}.hr{min-height:420px;border-left:0}nav{gap:14px;font-size:15px}nav a.l{display:none}.opts,.stats{grid-template-columns:1fr}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<nav>
+  <a class="logo" href="#top"><i>G</i>GAMENGLISH</a>
+  <span id="navApp" hidden style="display:contents">
+    <a class="l" href="#play">Play</a><a class="l" href="#journey">Your journey</a><a class="l" href="#club">The club</a>
+    <span class="who" id="who"></span><button class="btn o" id="logout">Log out</button>
+  </span>
+</nav>
+
+<!-- LOGIN -->
+<main id="loginView">
+  <header class="hero" id="top">
+    <div class="hl">
+      <h1>Don’t study it.<em>Play it.</em></h1>
+      <p>Quick-fire games for real-world English. Build confidence, catch phrases, and make mistakes worth celebrating.</p>
+      <form class="card login" id="loginForm" style="margin:0;width:100%">
+        <div class="d" style="font-size:34px">Log in</div>
+        <label for="uid">Your ID</label>
+        <input id="uid" autocomplete="username" autocapitalize="none" required>
+        <label for="pw">Password</label>
+        <input id="pw" type="password" autocomplete="current-password" required>
+        <p class="err" id="err" role="alert"></p>
+        <button class="btn" type="submit" style="margin-top:6px">Start playing</button>
+      </form>
+    </div>
+    <div class="hr" aria-hidden="true">
+      <div class="tag t1">Brilliant!</div><div class="tag t2">No worries.</div><div class="tag t3">You nailed it.</div>
+      <div class="bot"><div class="a"></div><div class="a r"></div><div class="h"><b></b></div><div class="b"><span>G!</span></div></div>
+    </div>
+  </header>
+</main>
+
+<!-- APP -->
+<main id="appView" hidden>
+  <section id="play"><div class="wrap">
+    <h2>Pick the phrase.</h2>
+    <p>Choose the option a native speaker would actually say. Eight questions per round.</p>
+    <div class="card" id="game" aria-live="polite"></div>
+  </div></section>
+
+  <section id="journey" style="padding-top:0"><div class="wrap">
+    <h2>Your journey</h2>
+    <p>Every right answer gives you XP. Every 100 XP is a new level.</p>
+    <div class="stats">
+      <div class="st"><b id="sLevel">1</b>Level</div>
+      <div class="st"><b id="sXp">0</b>Total XP</div>
+      <div class="st"><b id="sBest">0</b>Best round (of 8)</div>
+    </div>
+  </div></section>
+
+  <section class="club" id="club"><div class="wrap">
+    <h2>The club</h2>
+    <p>Everyone who has played on this device.</p>
+    <div class="card"><table><thead><tr><th>Player</th><th>Level</th><th>XP</th></tr></thead><tbody id="board"></tbody></table></div>
+
+    <div class="card" id="teacher" hidden>
+      <div class="d" style="font-size:30px">Teacher: add a student</div>
+      <p style="margin:8px 0 0;font-size:15px">Create the ID and password, copy the line, and paste it into the <code>STUDENTS</code> list in index.html. Then commit to GitHub.</p>
+      <label for="nid">New ID</label><input id="nid" autocapitalize="none">
+      <label for="nname">Name</label><input id="nname">
+      <label for="npw">Password</label><input id="npw">
+      <button class="btn" id="gen" type="button" style="margin-top:18px">Generate line</button>
+      <textarea id="out" readonly aria-label="Generated line"></textarea>
+    </div>
+  </div></section>
+</main>
+<footer>© Gamenglish</footer>
+
+<script>
+/* ============ STUDENTS ============
+   Cada alumno: id, nombre, hash (SHA-256 de "gamenglish:ID:PASSWORD"), y teacher:true solo para el profe.
+   Para agregar alumnos usa el panel "Teacher" dentro de la página y pega la línea aquí.
+   Cuentas de ejemplo (CÁMBIALAS): profe / profe123 · alumno1 / english123 · alumno2 / english456 */
+const STUDENTS=[
+ {id:"profe",name:"Teacher",teacher:true,hash:"3c51b902e98879ba915f25d80d8ca5608a4216aa9f4d3344d1d1d0d4da80c284"},
+ {id:"alumno1",name:"Alumno 1",hash:"5b7808ea511efba676b8efc8dcc71d43c6218fbda7cff516805d8203f0d365fb"},
+ {id:"alumno2",name:"Alumno 2",hash:"59212d2544caca3e0864dce015bd3c1dff8c84c47a84eccc090dd9e5fa860120"}
+];
+
+const BANK=[
+["I’m sorry, I didn’t ___ what you said.",["catch","take","hold","pick"],0,"No entendí lo que dijiste."],
+["Let’s ___ a break. I’m tired.",["do","take","make","get"],1,"Tomemos un descanso."],
+["Can you give me a ___ with these bags?",["hand","arm","finger","foot"],0,"¿Me das una mano?"],
+["That’s a great idea. I’m ___ for it!",["up","in","on","at"],0,"Estoy dispuesto."],
+["It’s ___ cats and dogs outside.",["falling","raining","pouring","dropping"],1,"Está lloviendo a cántaros."],
+["How long does it ___ to get to the airport?",["spend","take","need","go"],1,"¿Cuánto se tarda?"],
+["I’m looking ___ to seeing you!",["after","up","forward","out"],2,"Tengo muchas ganas de verte."],
+["Sorry I’m late. I got ___ in traffic.",["stuck","caught","held","tied"],0,"Me quedé atorado en el tráfico."],
+["“Thanks for helping!” — “___.”",["No worries","You are welcome to","Not at all of it","Don’t mention it to me"],0,"No hay problema."],
+["I’ll ___ you a call tomorrow.",["make","give","say","tell"],1,"Te llamo mañana."],
+["She’s ___ the weather today. She has a cold.",["under","over","in","below"],0,"Se siente mal."],
+["Could you ___ down the music, please?",["turn","go","put","set"],0,"Baja la música."],
+["I’m not sure. Let me ___ about it.",["think","mind","guess","wonder"],0,"Déjame pensarlo."],
+["We ran ___ of milk. Can you buy some?",["off","out","away","up"],1,"Se nos acabó la leche."]
+];
+
+const $=id=>document.getElementById(id);
+async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+const lsGet=(k,d)=>{try{return JSON.parse(localStorage.getItem(k))??d}catch(e){return d}};
+const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
+
+let user=null,S={xp:0,best:0},R;
+
+/* login */
+$("loginForm").onsubmit=async e=>{
+  e.preventDefault();
+  const id=$("uid").value.trim().toLowerCase(),pw=$("pw").value;
+  const h=await sha("gamenglish:"+id+":"+pw);
+  const u=STUDENTS.find(s=>s.id.toLowerCase()===id&&s.hash===h);
+  if(!u){$("err").textContent="That ID or password is not right. Check both and try again.";return}
+  lsSet("gam_session",u.id);enter(u);
+};
+$("logout").onclick=()=>{lsSet("gam_session",null);location.hash="";location.reload()};
+function enter(u){
+  user=u;S=Object.assign({xp:0,best:0},lsGet("gam_u_"+u.id,{}));
+  $("loginView").hidden=true;$("appView").hidden=false;$("navApp").hidden=false;$("navApp").style.display="contents";
+  $("who").textContent=u.name;$("teacher").hidden=!u.teacher;
+  stats();board();start();window.scrollTo(0,0);
+}
+function save(){lsSet("gam_u_"+user.id,S);const l=lsGet("gam_list",{});l[user.id]={name:user.name,xp:S.xp};lsSet("gam_list",l)}
+function stats(){$("sXp").textContent=S.xp;$("sLevel").textContent=Math.floor(S.xp/100)+1;$("sBest").textContent=S.best}
+function board(){
+  const l=Object.values(lsGet("gam_list",{})).sort((a,b)=>b.xp-a.xp);
+  $("board").innerHTML="";
+  if(!l.length){$("board").innerHTML="<tr><td colspan=3>Play a round to be the first on the board.</td></tr>";return}
+  l.forEach(p=>{const r=document.createElement("tr");[p.name,Math.floor(p.xp/100)+1,p.xp].forEach(v=>{const c=document.createElement("td");c.textContent=v;r.appendChild(c)});$("board").appendChild(r)});
+}
+
+/* teacher tool */
+$("gen").onclick=async()=>{
+  const id=$("nid").value.trim().toLowerCase(),n=$("nname").value.trim(),p=$("npw").value;
+  if(!id||!n||!p){$("out").value="Fill in ID, name and password first.";return}
+  $("out").value=` {id:"${id}",name:"${n.replace(/"/g,"")}",hash:"${await sha("gamenglish:"+id+":"+p)}"},`;
+};
+
+/* game */
+const PRAISE=["Brilliant!","You nailed it.","Nice one!","Spot on."];
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
+function start(){R={qs:shuffle(BANK).slice(0,8),i:0,score:0,streak:0};show()}
+function show(){
+  const g=$("game");
+  if(R.i>=R.qs.length){
+    if(R.score>S.best){S.best=R.score;save();stats()}
+    g.innerHTML=`<div class="q">Round complete: ${R.score} / 8</div><p class="hint">${R.score>=6?"Brilliant work. Your English is sticking.":"No worries. Mistakes are how phrases stick. Try again."}</p><button class="btn" id="again">Play again</button>`;
+    $("again").onclick=start;board();return;
+  }
+  const q=R.qs[R.i],order=shuffle(q[1].map((t,k)=>[t,k]));
+  g.innerHTML=`<div class="hud"><span>Question ${R.i+1} of 8</span><span>Streak: ${R.streak}</span><span>Score: ${R.score}</span></div><div class="bar"><div style="width:${R.i/8*100}%"></div></div><div class="q"></div><div class="hint"></div><div class="opts"></div><div class="fb"></div>`;
+  g.querySelector(".q").textContent=q[0];
+  g.querySelector(".hint").textContent="Hint: "+q[3];
+  const box=g.querySelector(".opts");
+  order.forEach(([t,k])=>{const b=document.createElement("button");b.className="opt";b.textContent=t;b.onclick=()=>answer(b,k===q[2],box,q,order);box.appendChild(b)});
+}
+function answer(btn,ok,box,q,order){
+  const bs=[...box.children];bs.forEach(b=>b.disabled=true);
+  bs.forEach((b,n)=>{if(order[n][1]===q[2])b.classList.add("ok")});
+  const fb=$("game").querySelector(".fb");
+  if(ok){R.score++;R.streak++;S.xp+=10+Math.min(R.streak,5)*2;save();stats();board()}else{btn.classList.add("no");R.streak=0}
+  fb.innerHTML=`<b></b><button class="btn" id="next">${R.i===7?"See results":"Next"}</button>`;
+  fb.querySelector("b").textContent=ok?PRAISE[Math.floor(Math.random()*PRAISE.length)]:"No worries. The answer is “"+q[1][q[2]]+"”.";
+  $("next").focus();$("next").onclick=()=>{R.i++;show()};
+}
+
+/* resume session */
+const sid=lsGet("gam_session",null);
+if(sid){const u=STUDENTS.find(s=>s.id===sid);if(u)enter(u)}
+</script>
+</body>
+</html>
