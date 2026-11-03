@@ -108,18 +108,25 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 8px;
 </main>
 
 <script>
-/* ===== ALUMNOS ===== hash = SHA-256 de "gamenglish:ID:PASSWORD". Agrégalos con el panel Administrar. Ejemplos: profe/profe123 · alumno1/english123 · alumno2/english456 (CÁMBIALAS) */
-const STUDENTS=[
- {id:"profe",name:"Teacher",teacher:true,hash:"3c51b902e98879ba915f25d80d8ca5608a4216aa9f4d3344d1d1d0d4da80c284"},
- {id:"alumno1",name:"Alumno 1",hash:"5b7808ea511efba676b8efc8dcc71d43c6218fbda7cff516805d8203f0d365fb"},
- {id:"alumno2",name:"Alumno 2",hash:"59212d2544caca3e0864dce015bd3c1dff8c84c47a84eccc090dd9e5fa860120"},
- {id:"260002",name:"Gema Guadalupe Cervera Basto",hash:"7b7d043f28692eebe3c1d9876369353f7e963b2dbdd908d51f346f1e86ee502d"}
-];
-
-/* ===== RECURSOS ===== Lo que ven los alumnos. Se llena desde el panel Administrar (copiar y pegar aquí).
-   Ejemplo: {id:"x1",level:"A1",type:"presentaciones",title:"Unit 1 – Greetings",desc:"Saludos y presentaciones",url:"presentaciones/a1-unit1.pdf"} */
-const RESOURCES=[
-];
+/* ===== DATOS =====
+   Los alumnos y materiales se guardan solos en students.json y resources.json de tu repositorio (desde ⚙️ Administrar). */
+const BASE=[{id:"profe",name:"Teacher",teacher:true,hash:"3c51b902e98879ba915f25d80d8ca5608a4216aa9f4d3344d1d1d0d4da80c284"}];
+let STU=BASE.slice(),RES=[];
+const merge=j=>{const ids=new Set(j.map(x=>x.id));return BASE.filter(b=>!ids.has(b.id)).concat(j)};
+const bust=u=>u+"?t="+Date.now();
+const ready=(async()=>{
+  try{const r=await fetch(bust("students.json"));if(r.ok)STU=merge(await r.json())}catch(e){}
+  try{const r=await fetch(bust("resources.json"));if(r.ok)RES=await r.json()}catch(e){}
+})();
+/* GitHub API */
+const repoInfo=()=>{const o=location.hostname.split(".")[0];let r=location.pathname.split("/")[1]||"";if(!r||r.includes("."))r=o+".github.io";return{o,r}};
+const tok=()=>lsGet("gam_token","");
+const gh=(path,opt)=>{const{o,r}=repoInfo();return fetch("https://api.github.com/repos/"+o+"/"+r+(path?"/"+path:""),Object.assign({},opt,{headers:{Authorization:"Bearer "+tok(),Accept:"application/vnd.github+json","Content-Type":"application/json"}}))};
+const b64=t=>btoa(unescape(encodeURIComponent(t)));
+const unb64=t=>decodeURIComponent(escape(atob(t.replace(/\n/g,""))));
+async function readJson(f){const r=await gh("contents/"+f);if(r.status===404)return{data:[],sha:null};if(!r.ok)throw new Error("No pude leer "+f+" ("+r.status+")");const j=await r.json();return{data:JSON.parse(unb64(j.content)),sha:j.sha}}
+async function writeFile(f,content,sha,msg){const body={message:msg,content};if(sha)body.sha=sha;const r=await gh("contents/"+f,{method:"PUT",body:JSON.stringify(body)});if(!r.ok){let m="";try{m=(await r.json()).message}catch(e){}throw new Error("GitHub respondió "+r.status+(m?": "+m:""))}}
+async function updateList(f,fn,msg){const{data,sha}=await readJson(f);const nd=fn(data);await writeFile(f,b64(JSON.stringify(nd,null,1)),sha,msg);return nd}
 
 const LEVELS=[["A0","Primeros pasos"],["A1","Principiante"],["A2","Básico"],["B1","Intermedio"],["B2","Intermedio alto"],["C1","Avanzado"],["C2","Maestría"]];
 const SECS=[["presentaciones","📊","Presentaciones"],["videos","🎬","Videos"],["guias","📋","Guías"],["juego","🎮","Juego"],["progreso","⭐","Mi progreso"]];
@@ -151,14 +158,11 @@ const safe=u=>/^(https?:\/\/|[\w\-./%()]+$)/i.test(u||"");
 async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
 
 let user,S,lvl="A1",sec="presentaciones",showForm=false,R,view="class";
-const drafts=()=>lsGet("gam_drafts",[]);
-const allRes=()=>{const ids=new Set(RESOURCES.map(r=>r.id));return RESOURCES.concat(drafts().filter(d=>!ids.has(d.id)))};
-
 /* login */
 $("loginForm").onsubmit=async e=>{
-  e.preventDefault();
+  e.preventDefault();await ready;
   const id=$("uid").value.trim().toLowerCase(),hs=await sha("gamenglish:"+id+":"+$("pw").value);
-  const u=STUDENTS.find(s=>s.id.toLowerCase()===id&&s.hash===hs);
+  const u=STU.find(s=>s.id.toLowerCase()===id&&s.hash===hs);
   if(!u){$("err").textContent="El ID o la contraseña no son correctos. Revisa ambos e inténtalo otra vez.";return}
   lsSet("gam_session",u.id);enter(u);
 };
@@ -193,17 +197,27 @@ function render(){
 
 /* resources */
 function resources(C){
-  const ids=new Set(RESOURCES.map(r=>r.id));
-  const list=allRes().filter(r=>r.level===lvl&&r.type===sec);
+  const list=RES.filter(r=>r.level===lvl&&r.type===sec);
   if(user.teacher){
     const add=h("button","btn",showForm?"Cancelar":"+ Agregar a "+lvl);add.style.marginBottom="18px";
     add.onclick=()=>{showForm=!showForm;render()};C.appendChild(add);
     if(showForm){
       const f=h("form","card");f.style.marginBottom="20px";
-      f.innerHTML=`<label>Título</label><input name=t required><label>Enlace (Google Slides, Drive, YouTube o archivo del repositorio)</label><input name=u required placeholder="https://… o presentaciones/a1-unit1.pdf"><label>Descripción (opcional)</label><input name=d><p class="err" id="ferr"></p><button class="btn" type="submit">Guardar</button>`;
-      f.onsubmit=e=>{e.preventDefault();const v=f.elements;
-        if(!safe(v.u.value.trim())){$("ferr").textContent="Ese enlace no es válido. Debe empezar con https:// o ser un archivo del repositorio.";return}
-        const d=drafts();d.push({id:Date.now().toString(36),level:lvl,type:sec,title:v.t.value.trim(),desc:v.d.value.trim(),url:v.u.value.trim()});lsSet("gam_drafts",d);showForm=false;render()};
+      f.innerHTML=`<label>Título</label><input name=t required><label>Sube un archivo (PDF, PPTX… máximo 25 MB)</label><input name=f type="file"><label>…o pega un enlace (Google Slides, Drive, YouTube)</label><input name=u placeholder="https://…"><label>Descripción (opcional)</label><input name=d><p class="err" id="ferr"></p><button class="btn" type="submit">Guardar</button><p class="sub" style="margin:12px 0 0;font-size:14px">Tus alumnos lo verán en 1 o 2 minutos.</p>`;
+      f.onsubmit=async e=>{e.preventDefault();const v=f.elements,er=$("ferr"),btn=f.querySelector("button");
+        if(!tok()){er.textContent="Primero conecta GitHub en ⚙️ Administrar.";return}
+        const file=v.f.files[0];let url=v.u.value.trim();
+        if(!file&&!safe(url)){er.textContent="Elige un archivo o pega un enlace válido que empiece con https://";return}
+        if(file&&file.size>25e6){er.textContent="El archivo pesa más de 25 MB. Mejor usa un enlace de Google Drive.";return}
+        btn.disabled=true;er.textContent="Guardando…";
+        try{
+          if(file){const name="materiales/"+Date.now().toString(36)+"-"+file.name.replace(/[^\w.\-]+/g,"_");
+            const data=await new Promise((ok,no)=>{const fr=new FileReader();fr.onload=()=>ok(fr.result.split(",")[1]);fr.onerror=no;fr.readAsDataURL(file)});
+            await writeFile(name,data,null,"Subir "+file.name);url=name}
+          const item={id:Date.now().toString(36),level:lvl,type:sec,title:v.t.value.trim(),desc:v.d.value.trim(),url};
+          RES=await updateList("resources.json",d=>d.concat([item]),"Agregar material");
+          showForm=false;render();
+        }catch(x){er.textContent=x.message;btn.disabled=false}};
       C.appendChild(f);
     }
   }
@@ -212,10 +226,9 @@ function resources(C){
     const d=h("div","res");d.append(h("div","ic",ICON[r.type]));
     const b=h("div","rb");b.append(h("b","",r.title),h("p","",r.desc||""));d.append(b);
     const a=h("a","btn o","Abrir");if(safe(r.url)){a.href=r.url;a.target="_blank";a.rel="noopener"}d.append(a);
-    if(user.teacher&&!ids.has(r.id)){const x=h("button","btn o","Quitar");x.onclick=()=>{lsSet("gam_drafts",drafts().filter(y=>y.id!==r.id));render()};d.append(x)}
+    if(user.teacher){const x=h("button","btn o","Quitar");x.onclick=async()=>{x.disabled=true;x.textContent="…";try{RES=await updateList("resources.json",y=>y.filter(z=>z.id!==r.id),"Quitar material")}catch(err){alert(err.message)}render()};d.append(x)}
     C.appendChild(d);
   });
-  if(user.teacher&&list.some(r=>!ids.has(r.id)))C.appendChild(h("p","sub","Los materiales con “Quitar” solo los ves tú. Para que los vean tus alumnos, publícalos desde Administrar."));
 }
 
 /* game */
@@ -263,37 +276,41 @@ function progress(C){
 }
 
 /* admin */
-const sDrafts=()=>lsGet("gam_sdrafts",[]);
-const sLine=s=>" {id:"+JSON.stringify(s.id)+",name:"+JSON.stringify(s.name)+","+(s.teacher?"teacher:true,":"")+"hash:"+JSON.stringify(s.hash)+"}";
 function admin(C){
-  const ids=new Set(STUDENTS.map(s=>s.id));
-  const pend=sDrafts().filter(s=>!ids.has(s.id));
-  const all=STUDENTS.concat(pend);
-  const a=h("div","card");a.style.marginBottom="22px";
-  a.innerHTML=`<div class="d" style="font-size:30px">Alumnos</div><table><thead><tr><th>ID</th><th>Nombre</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table><label for="nid">ID nuevo</label><input id="nid" autocapitalize="none"><label for="nname">Nombre</label><input id="nname"><label for="npw">Contraseña</label><input id="npw"><p class="err" id="aerr"></p><button class="btn" id="add" type="button">Agregar alumno</button>`;
+  const c=h("div","card");c.style.marginBottom="22px";
+  if(tok()){
+    c.innerHTML=`<div class="d" style="font-size:26px">Conexión con GitHub</div><p>Conectado ✓. Lo que agregues se guarda solo en tu repositorio.</p>`;
+    const x=h("button","btn o","Desconectar");x.onclick=()=>{lsSet("gam_token","");render()};c.append(x);
+  }else{
+    c.innerHTML=`<div class="d" style="font-size:26px">Conexión con GitHub</div><p>Pega tu token una sola vez y ya no vuelves a copiar nada. Se guarda solo en este navegador.</p><label for="tk">Token</label><input id="tk" type="password" autocomplete="off"><p class="err" id="terr"></p><button class="btn" id="tsave" type="button">Conectar</button>`;
+    c.querySelector("#tsave").onclick=async()=>{
+      const t=c.querySelector("#tk").value.trim(),e=c.querySelector("#terr");if(!t)return;
+      lsSet("gam_token",t);e.textContent="Probando…";
+      try{const r=await gh("");if(!r.ok)throw 0;render()}
+      catch(x){lsSet("gam_token","");e.textContent="El token no funciona. Revisa que lo copiaste completo y que tiene permiso Contents: Read and write sobre este repositorio."}};
+  }
+  const a=h("div","card");
+  a.innerHTML=`<div class="d" style="font-size:30px">Alumnos</div><table><thead><tr><th>ID</th><th>Nombre</th><th></th></tr></thead><tbody></tbody></table><p class="sub" style="font-size:14px;margin:10px 0 0">Los cambios tardan 1 o 2 minutos en verse para los alumnos.</p><label for="nid">ID nuevo</label><input id="nid" autocapitalize="none"><label for="nname">Nombre</label><input id="nname"><label for="npw">Contraseña</label><input id="npw"><p class="err" id="aerr"></p><button class="btn" id="add" type="button">Agregar alumno</button>`;
   const tb=a.querySelector("tbody");
-  all.forEach(st=>{const r=h("tr");const pub=ids.has(st.id);
-    [st.id,st.name,pub?"Publicado":"Falta publicar"].forEach(v=>r.append(h("td","",v)));
-    const t=h("td");if(!pub){const x=h("button","btn o","Quitar");x.onclick=()=>{lsSet("gam_sdrafts",sDrafts().filter(y=>y.id!==st.id));render()};t.append(x)}
+  STU.forEach(st=>{const r=h("tr");[st.id,st.name].forEach(v=>r.append(h("td","",v)));const t=h("td");
+    if(!BASE.some(b=>b.id===st.id)){const x=h("button","btn o","Quitar");x.onclick=async()=>{x.disabled=true;x.textContent="…";try{STU=merge(await updateList("students.json",d=>d.filter(y=>y.id!==st.id),"Quitar alumno"))}catch(err){alert(err.message)}render()};t.append(x)}
     r.append(t);tb.append(r)});
   a.querySelector("#add").onclick=async()=>{
-    const id=a.querySelector("#nid").value.trim().toLowerCase(),n=a.querySelector("#nname").value.trim(),p=a.querySelector("#npw").value,e=a.querySelector("#aerr");
+    const id=a.querySelector("#nid").value.trim().toLowerCase(),n=a.querySelector("#nname").value.trim(),p=a.querySelector("#npw").value,e=a.querySelector("#aerr"),btn=a.querySelector("#add");
+    if(!tok()){e.textContent="Primero conecta GitHub arriba.";return}
     if(!id||!n||!p){e.textContent="Llena ID, nombre y contraseña.";return}
     if(/\s/.test(id)){e.textContent="El ID no puede tener espacios.";return}
-    if(all.some(x=>x.id.toLowerCase()===id)){e.textContent="Ese ID ya existe.";return}
-    const d=sDrafts();d.push({id,name:n,hash:await sha("gamenglish:"+id+":"+p)});lsSet("gam_sdrafts",d);render();
+    if(STU.some(x=>x.id.toLowerCase()===id)){e.textContent="Ese ID ya existe.";return}
+    btn.disabled=true;e.textContent="Guardando…";
+    try{const hs=await sha("gamenglish:"+id+":"+p);
+      STU=merge(await updateList("students.json",d=>{if(d.some(x=>x.id===id))throw new Error("Ese ID ya existe.");return d.concat([{id,name:n,hash:hs}])},"Agregar alumno"));
+      render();
+    }catch(x){e.textContent=x.message;btn.disabled=false}
   };
-  const ps=h("div","card");ps.style.marginBottom="22px";
-  ps.innerHTML=`<div class="d" style="font-size:26px">Publicar alumnos</div><p>Los alumnos con “Falta publicar” todavía no pueden entrar. Copia este texto, abre <b>index.html</b> en GitHub (lápiz de editar), busca <b>const STUDENTS=[</b> y reemplaza <b>todo lo que hay entre los corchetes</b> por este texto. Luego toca Commit.</p><textarea readonly aria-label="Lista de alumnos"></textarea>`;
-  ps.querySelector("textarea").value=all.map(sLine).join(",\n");
-  const m=h("div","card");
-  m.innerHTML=`<div class="d" style="font-size:26px">Publicar materiales</div><p>Lo que agregas en cada nivel solo lo ves tú. Para que lo vean tus alumnos: copia este texto, abre <b>index.html</b>, reemplaza lo que hay entre los corchetes de <b>RESOURCES</b> y toca Commit.</p><textarea readonly aria-label="Código de materiales"></textarea><p style="font-size:15px;opacity:.8">Para subir un PDF o PPTX: en GitHub toca Add file, Upload files, súbelo a la carpeta <b>presentaciones</b> y usa el enlace <b>presentaciones/nombre.pdf</b>. También sirven enlaces de Google Slides o YouTube.</p>`;
-  m.querySelector("textarea").value=allRes().map(r=>"  "+JSON.stringify(r)).join(",\n");
-  C.append(a,ps,m);
+  C.append(c,a);
 }
 
-const sid=lsGet("gam_session",null);
-if(sid){const u=STUDENTS.find(s=>s.id===sid);if(u)enter(u)}
+ready.then(()=>{const sid=lsGet("gam_session",null);if(sid){const u=STU.find(s=>s.id===sid);if(u)enter(u)}});
 </script>
 </body>
 </html>
