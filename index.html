@@ -76,7 +76,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 8px;
 <body>
 <nav>
   <div class="logo"><i>G</i>GAMENGLISH</div>
-  <span class="who" id="who"></span><button class="btn o" id="logout" hidden>Salir</button>
+  <span class="who" id="who"></span><button class="btn o" id="adminBtn" hidden>⚙️ Administrar</button><button class="btn o" id="logout" hidden>Salir</button>
 </nav>
 
 <main id="loginView">
@@ -149,7 +149,7 @@ const lsSet=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}};
 const safe=u=>/^(https?:\/\/|[\w\-./%()]+$)/i.test(u||"");
 async function sha(t){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(t));return[...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
 
-let user,S,lvl="A1",sec="presentaciones",showForm=false,R;
+let user,S,lvl="A1",sec="presentaciones",showForm=false,R,view="class";
 const drafts=()=>lsGet("gam_drafts",[]);
 const allRes=()=>{const ids=new Set(RESOURCES.map(r=>r.id));return RESOURCES.concat(drafts().filter(d=>!ids.has(d.id)))};
 
@@ -162,9 +162,10 @@ $("loginForm").onsubmit=async e=>{
   lsSet("gam_session",u.id);enter(u);
 };
 $("logout").onclick=()=>{lsSet("gam_session",null);location.reload()};
+$("adminBtn").onclick=()=>{view=view==="admin"?"class":"admin";render()};
 function enter(u){
   user=u;S=Object.assign({xp:0,best:0},lsGet("gam_u_"+u.id,{}));
-  $("loginView").hidden=true;$("appView").hidden=false;$("logout").hidden=false;$("who").textContent=u.name;
+  $("loginView").hidden=true;$("appView").hidden=false;$("logout").hidden=false;$("who").textContent=u.name;$("adminBtn").hidden=!u.teacher;view="class";
   $("title").textContent=u.teacher?"Panel del profesor":"Mi clase";
   $("sub").textContent=u.teacher?"Elige un nivel y una sección para agregar tus materiales.":"Elige tu nivel y empieza.";
   render();
@@ -173,11 +174,17 @@ function save(){lsSet("gam_u_"+user.id,S);const l=lsGet("gam_list",{});l[user.id
 
 /* navigation */
 function render(){
+  const adm=view==="admin"&&user.teacher;
+  ["lvls","lvlName","secs"].forEach(i=>$(i).hidden=adm);
+  $("title").textContent=adm?"Administración":(user.teacher?"Panel del profesor":"Mi clase");
+  $("sub").textContent=adm?"Alumnos y publicación de materiales.":(user.teacher?"Elige un nivel y una sección para agregar tus materiales.":"Elige tu nivel y empieza.");
+  $("adminBtn").textContent=adm?"← Volver a la clase":"⚙️ Administrar";
+  if(adm){const C=$("content");C.innerHTML="";admin(C);return}
   const L=$("lvls");L.innerHTML="";
   LEVELS.forEach(([k])=>{const b=h("button","pill",k);b.setAttribute("aria-pressed",k===lvl);b.onclick=()=>{lvl=k;showForm=false;render()};L.appendChild(b)});
   $("lvlName").textContent="Nivel "+lvl+" · "+LEVELS.find(x=>x[0]===lvl)[1];
   const T=$("secs");T.innerHTML="";
-  const secs=user.teacher?SECS.concat([["admin","⚙️","Administrar"]]):SECS;
+  const secs=SECS;
   secs.forEach(([k,i,n])=>{const b=h("button","tab",i+" "+n);b.setAttribute("aria-pressed",k===sec);b.onclick=()=>{sec=k;showForm=false;render()};T.appendChild(b)});
   const C=$("content");C.innerHTML="";
   if(ICON[sec])resources(C);else if(sec==="juego")game(C);else if(sec==="progreso")progress(C);else admin(C);
@@ -255,18 +262,33 @@ function progress(C){
 }
 
 /* admin */
+const sDrafts=()=>lsGet("gam_sdrafts",[]);
+const sLine=s=>" {id:"+JSON.stringify(s.id)+",name:"+JSON.stringify(s.name)+","+(s.teacher?"teacher:true,":"")+"hash:"+JSON.stringify(s.hash)+"}";
 function admin(C){
-  const all=allRes().map(r=>"  "+JSON.stringify(r)).join(",\n");
+  const ids=new Set(STUDENTS.map(s=>s.id));
+  const pend=sDrafts().filter(s=>!ids.has(s.id));
+  const all=STUDENTS.concat(pend);
   const a=h("div","card");a.style.marginBottom="22px";
-  a.innerHTML=`<div class="d" style="font-size:28px">Publicar materiales</div><p>Lo que agregas aquí solo lo ves tú. Para que lo vean tus alumnos: copia este texto, abre <b>index.html</b> en GitHub (lápiz de editar), reemplaza lo que hay entre los corchetes de <b>RESOURCES</b> y toca Commit.</p><textarea readonly aria-label="Código de materiales"></textarea><p style="font-size:15px;opacity:.8">Para subir un PDF o PPTX: en GitHub toca Add file, Upload files, súbelo a la carpeta <b>presentaciones</b> y usa el enlace <b>presentaciones/nombre.pdf</b>. También sirven enlaces de Google Slides o YouTube.</p>`;
-  a.querySelector("textarea").value=all;C.append(a);
-  const s=h("div","card");
-  s.innerHTML=`<div class="d" style="font-size:28px">Agregar un alumno</div><p>Crea el ID y la contraseña, copia la línea y pégala dentro de <b>STUDENTS</b> en index.html.</p><label>ID</label><input id="nid" autocapitalize="none"><label>Nombre</label><input id="nname"><label>Contraseña</label><input id="npw"><button class="btn" id="gen" type="button" style="margin-top:16px">Generar línea</button><textarea id="out" readonly style="margin-top:12px;height:80px" aria-label="Línea generada"></textarea>`;
-  C.append(s);
-  s.querySelector("#gen").onclick=async()=>{
-    const id=s.querySelector("#nid").value.trim().toLowerCase(),n=s.querySelector("#nname").value.trim().replace(/"/g,""),p=s.querySelector("#npw").value;
-    s.querySelector("#out").value=(!id||!n||!p)?"Llena ID, nombre y contraseña.":` {id:"${id}",name:"${n}",hash:"${await sha("gamenglish:"+id+":"+p)}"},`;
+  a.innerHTML=`<div class="d" style="font-size:30px">Alumnos</div><table><thead><tr><th>ID</th><th>Nombre</th><th>Estado</th><th></th></tr></thead><tbody></tbody></table><label for="nid">ID nuevo</label><input id="nid" autocapitalize="none"><label for="nname">Nombre</label><input id="nname"><label for="npw">Contraseña</label><input id="npw"><p class="err" id="aerr"></p><button class="btn" id="add" type="button">Agregar alumno</button>`;
+  const tb=a.querySelector("tbody");
+  all.forEach(st=>{const r=h("tr");const pub=ids.has(st.id);
+    [st.id,st.name,pub?"Publicado":"Falta publicar"].forEach(v=>r.append(h("td","",v)));
+    const t=h("td");if(!pub){const x=h("button","btn o","Quitar");x.onclick=()=>{lsSet("gam_sdrafts",sDrafts().filter(y=>y.id!==st.id));render()};t.append(x)}
+    r.append(t);tb.append(r)});
+  a.querySelector("#add").onclick=async()=>{
+    const id=a.querySelector("#nid").value.trim().toLowerCase(),n=a.querySelector("#nname").value.trim(),p=a.querySelector("#npw").value,e=a.querySelector("#aerr");
+    if(!id||!n||!p){e.textContent="Llena ID, nombre y contraseña.";return}
+    if(/\s/.test(id)){e.textContent="El ID no puede tener espacios.";return}
+    if(all.some(x=>x.id.toLowerCase()===id)){e.textContent="Ese ID ya existe.";return}
+    const d=sDrafts();d.push({id,name:n,hash:await sha("gamenglish:"+id+":"+p)});lsSet("gam_sdrafts",d);render();
   };
+  const ps=h("div","card");ps.style.marginBottom="22px";
+  ps.innerHTML=`<div class="d" style="font-size:26px">Publicar alumnos</div><p>Los alumnos con “Falta publicar” todavía no pueden entrar. Copia este texto, abre <b>index.html</b> en GitHub (lápiz de editar), busca <b>const STUDENTS=[</b> y reemplaza <b>todo lo que hay entre los corchetes</b> por este texto. Luego toca Commit.</p><textarea readonly aria-label="Lista de alumnos"></textarea>`;
+  ps.querySelector("textarea").value=all.map(sLine).join(",\n");
+  const m=h("div","card");
+  m.innerHTML=`<div class="d" style="font-size:26px">Publicar materiales</div><p>Lo que agregas en cada nivel solo lo ves tú. Para que lo vean tus alumnos: copia este texto, abre <b>index.html</b>, reemplaza lo que hay entre los corchetes de <b>RESOURCES</b> y toca Commit.</p><textarea readonly aria-label="Código de materiales"></textarea><p style="font-size:15px;opacity:.8">Para subir un PDF o PPTX: en GitHub toca Add file, Upload files, súbelo a la carpeta <b>presentaciones</b> y usa el enlace <b>presentaciones/nombre.pdf</b>. También sirven enlaces de Google Slides o YouTube.</p>`;
+  m.querySelector("textarea").value=allRes().map(r=>"  "+JSON.stringify(r)).join(",\n");
+  C.append(a,ps,m);
 }
 
 const sid=lsGet("gam_session",null);
