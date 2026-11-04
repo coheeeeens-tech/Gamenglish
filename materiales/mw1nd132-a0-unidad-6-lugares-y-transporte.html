@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gamenglish A0 · Unidad 6: Lugares y transporte</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3eddc;--ink:#1b2e2a;--coral:#e8694f;--co2:#c4442b;--lime:#d4e157;--sky:#82b4da;--card:#fffaf0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.4 "DM Sans",system-ui,sans-serif;min-height:100vh}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+header{display:flex;align-items:center;gap:12px;padding:12px 4vw;border-bottom:1px solid #1b2e2a33}
+.logo{width:36px;height:36px;border-radius:50%;background:var(--lime);border:2px solid var(--ink);display:grid;place-items:center;font:800 17px "Bricolage Grotesque",sans-serif;flex:none}
+header b{font:800 16px "Bricolage Grotesque",sans-serif}
+header select{margin-left:auto;font:500 15px "DM Sans",sans-serif;padding:8px 10px;border:2px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink);max-width:50vw}
+main{max-width:1150px;margin:0 auto;padding:24px 4vw 120px}
+h1,h2{font-family:"Bricolage Grotesque",sans-serif;letter-spacing:-.04em;line-height:.95;margin:0}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.topic{font-size:clamp(34px,5vw,60px);font-weight:800}
+.tag{border:2px solid var(--ink);border-radius:30px;padding:4px 14px;font-weight:700;font-size:14px;background:var(--card)}
+.tip{background:var(--lime);border:2.5px solid var(--ink);border-radius:14px;padding:10px 16px;margin:16px 0 0;font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.grid.w{grid-template-columns:repeat(3,1fr)}
+.c{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;padding:16px;box-shadow:4px 4px 0 var(--ink);display:flex;flex-direction:column;gap:6px;transition:background .15s}
+.c.on{background:var(--lime)}
+.c .w{font:800 clamp(24px,3vw,34px)/1.05 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.c .p{color:var(--co2);font-weight:700;font-size:18px}
+.c .m{opacity:.85}
+.b{display:flex;gap:8px;margin-top:auto;padding-top:10px;flex-wrap:wrap}
+.b button{font:700 14px "DM Sans",sans-serif;padding:8px 13px;border:2px solid var(--ink);border-radius:30px;background:var(--bg);color:var(--ink);cursor:pointer}
+.b button:hover{background:var(--sky)}
+.btn{font:700 16px "DM Sans",sans-serif;background:var(--ink);color:#f3eddc;border:0;border-radius:40px;padding:12px 24px;cursor:pointer;box-shadow:4px 4px 0 var(--coral)}
+.btn:disabled{opacity:.35;box-shadow:none;cursor:default}
+.sm{margin-top:16px;padding:10px 20px}
+.hero{display:grid;justify-items:center;text-align:center;gap:18px;padding-top:6vh}
+.hero h1{font-size:clamp(44px,8vw,100px);font-weight:800}
+.hero .logo{width:96px;height:96px;font-size:40px;border-width:3px;box-shadow:5px 5px 0 var(--ink)}
+.kick{font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--co2)}
+.hero p{max-width:34em;margin:0;font-size:19px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid #1b2e2a33;padding:12px 4vw;display:flex;gap:14px;align-items:center}
+.prog{flex:1;height:12px;border:2px solid var(--ink);border-radius:8px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--lime);width:0;transition:width .25s}
+#cnt{font-weight:700;font-size:14px;min-width:54px;text-align:center}
+@media(max-width:900px){.grid,.grid.w{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid,.grid.w{grid-template-columns:1fr}.btn{padding:12px 16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<header><div class="logo">G</div><b>GAMENGLISH · A0 · Unidad 6</b><select id="jump" aria-label="Ir a un tema"></select></header>
+<main id="m"></main>
+<nav><button class="btn" id="prev">← Anterior</button><div class="prog"><i id="bar"></i></div><span id="cnt"></span><button class="btn" id="next">Siguiente →</button></nav>
+<script>
+const D={"n": 6, "title": "Lugares y transporte", "topics": [{"t": "Calles y ciudad", "tip": "In the city, on the street, at the corner: cada lugar usa su preposición.", "items": [["city", "ciudad", "SI-ti"], ["town", "pueblo", "taun"], ["downtown", "centro", "daun-TAUN"], ["neighborhood", "colonia", "NEI-ber-jud"], ["street", "calle", "strit"], ["avenue", "avenida", "A-ve-niu"], ["road", "camino", "roud"], ["corner", "esquina", "COR-ner"], ["block", "cuadra", "blok"], ["sidewalk", "banqueta", "SAID-uok"], ["crosswalk", "cruce peatonal", "CROS-uok"], ["traffic light", "semáforo", "TRA-fic lait"], ["bridge", "puente", "brich"], ["fountain", "fuente", "FAUN-ten"], ["square", "plaza", "skuer"], ["parking lot", "estacionamiento", "PAR-king lot"], ["bus stop", "parada de autobús", "bos stop"], ["map", "mapa", "map"], ["address", "dirección", "A-dres"], ["traffic", "tráfico", "TRA-fic"]]}, {"t": "Lugares de la ciudad", "tip": "", "items": [["school", "escuela", "scul"], ["university", "universidad", "iu-ni-VER-si-ti"], ["library", "biblioteca", "LAI-bre-ri"], ["hospital", "hospital", "JOS-pi-tal"], ["clinic", "clínica", "CLI-nic"], ["pharmacy", "farmacia", "FAR-ma-si"], ["bank", "banco", "bank"], ["post office", "oficina de correos", "poust O-fis"], ["police station", "estación de policía", "po-LIS STEI-shon"], ["fire station", "estación de bomberos", "FAIR STEI-shon"], ["city hall", "palacio municipal", "SI-ti jol"], ["church", "iglesia", "cherch"], ["park", "parque", "park"], ["playground", "juegos infantiles", "PLEI-graund"], ["zoo", "zoológico", "zu"], ["museum", "museo", "miu-SI-om"], ["theater", "teatro", "ZI-a-ter"], ["cinema", "cine", "SI-ne-ma"], ["stadium", "estadio", "STEI-dium"], ["gym", "gimnasio", "yim"], ["swimming pool", "alberca", "SUI-ming pul"], ["beach", "playa", "bich"], ["airport", "aeropuerto", "ER-port"], ["train station", "estación de tren", "trein STEI-shon"], ["bus station", "central de autobuses", "bos STEI-shon"], ["gas station", "gasolinera", "gas STEI-shon"], ["hotel", "hotel", "jou-TEL"], ["factory", "fábrica", "FAC-to-ri"], ["farm", "granja", "farm"], ["market", "mercado", "MAR-ket"], ["office", "oficina", "O-fis"], ["restaurant", "restaurante", "RES-te-rant"], ["home", "casa / hogar", "joum"], ["bookstore", "librería", "BUK-stor"]]}, {"t": "Tiendas y negocios", "tip": "Para decir a dónde vas: I go to the bank. I'm at the supermarket.", "items": [["store", "tienda", "stor"], ["shop", "tienda pequeña", "shop"], ["supermarket", "supermercado", "SU-per-mar-ket"], ["grocery store", "tienda de abarrotes", "GROU-se-ri stor"], ["corner store", "tiendita", "COR-ner stor"], ["mall", "centro comercial", "mol"], ["department store", "tienda departamental", "di-PART-ment stor"], ["bakery", "panadería", "BEI-ke-ri"], ["butcher shop", "carnicería", "BU-cher shop"], ["fruit stand", "puesto de fruta", "frut stand"], ["café", "cafetería", "ca-FEI"], ["coffee shop", "cafetería", "CO-fi shop"], ["bar", "bar", "bar"], ["pizzeria", "pizzería", "pit-se-RI-a"], ["ice cream shop", "heladería", "ais crim shop"], ["clothing store", "tienda de ropa", "CLOU-zing stor"], ["shoe store", "zapatería", "shu stor"], ["jewelry store", "joyería", "YU-el-ri stor"], ["toy store", "juguetería", "toi stor"], ["pet store", "tienda de mascotas", "pet stor"], ["flower shop", "florería", "FLAU-er shop"], ["hardware store", "ferretería", "JARD-uer stor"], ["electronics shop", "tienda de electrónica", "i-lec-TRA-nics shop"], ["furniture store", "mueblería", "FER-ni-cher stor"], ["stationery store", "papelería", "STEI-sho-ne-ri stor"], ["barbershop", "barbería", "BAR-ber-shop"], ["hair salon", "salón de belleza", "jer sa-LAN"], ["laundromat", "lavandería", "LON-dro-mat"], ["car wash", "autolavado", "car uosh"], ["travel agency", "agencia de viajes", "TRA-vel EI-yen-si"], ["ATM", "cajero automático", "ei ti em"], ["customer", "cliente", "COS-to-mer"], ["price", "precio", "prais"], ["sale", "oferta", "seil"], ["open", "abierto", "OU-pen"], ["closed", "cerrado", "clousd"]]}, {"t": "Medios de transporte", "tip": "Se dice by bus, by car, by train. Pero a pie es on foot.", "items": [["transportation", "transporte", "trans-por-TEI-shon"], ["car", "coche", "car"], ["taxi", "taxi", "TAC-si"], ["cab", "taxi (EE. UU.)", "cab"], ["bus", "autobús", "bos"], ["school bus", "autobús escolar", "scul bos"], ["van", "camioneta", "van"], ["truck", "camión", "troc"], ["motorcycle", "motocicleta", "MOU-tor-sai-col"], ["scooter", "scooter", "SCU-ter"], ["bicycle", "bicicleta", "BAI-si-col"], ["bike", "bici", "baik"], ["skateboard", "patineta", "SKEIT-bord"], ["train", "tren", "trein"], ["subway", "metro", "SOB-uei"], ["tram", "tranvía", "tram"], ["cable car", "teleférico", "KEI-bol car"], ["airplane", "avión", "ER-plein"], ["helicopter", "helicóptero", "JE-li-cop-ter"], ["boat", "bote", "bout"], ["ship", "barco", "ship"], ["ferry", "ferry", "FE-ri"], ["cruise ship", "crucero", "cruz ship"], ["ambulance", "ambulancia", "AM-biu-lans"], ["fire truck", "camión de bomberos", "FAIR troc"], ["police car", "patrulla", "po-LIS car"], ["ticket", "boleto", "TI-ket"], ["passenger", "pasajero", "PA-sen-yer"], ["driver", "conductor", "DRAI-ver"], ["seat belt", "cinturón de seguridad", "sit belt"], ["helmet", "casco", "JEL-met"], ["gas", "gasolina", "gas"], ["on foot", "a pie", "on fut"], ["walk", "caminar", "uoc"], ["drive", "manejar", "draiv"], ["ride", "viajar / andar en", "raid"]]}, {"t": "Hablar de transporte", "tip": "", "items": [["I go to school by bus.", "Voy a la escuela en autobús.", "ai gou tu scul bai bos"], ["I walk to school.", "Camino a la escuela.", "ai uoc tu scul"], ["How do you get to work?", "¿Cómo llegas al trabajo?", "jau du iu guet tu uerk"], ["I take the subway.", "Tomo el metro.", "ai teik de SOB-uei"], ["Let's take a taxi.", "Tomemos un taxi.", "lets teik a TAC-si"], ["The bus is late.", "El autobús va tarde.", "de bos is leit"], ["Where is the bus stop?", "¿Dónde está la parada?", "uer is de bos stop"], ["I ride my bike.", "Voy en mi bici.", "ai raid mai baik"]]}, {"t": "Direcciones: palabras", "tip": "", "items": [["left", "izquierda", "left"], ["right", "derecha", "rait"], ["straight", "derecho / recto", "streit"], ["straight ahead", "todo derecho", "streit a-JED"], ["here", "aquí", "jir"], ["there", "allá", "der"], ["near", "cerca", "nir"], ["far", "lejos", "far"], ["next to", "junto a", "next tu"], ["behind", "detrás de", "bi-JAIND"], ["in front of", "enfrente de", "in front of"], ["between", "entre", "bi-TUIN"], ["across from", "frente a", "a-CROS from"], ["on the corner", "en la esquina", "on de COR-ner"], ["north", "norte", "norz"], ["south", "sur", "sauz"], ["east", "este", "ist"], ["west", "oeste", "uest"], ["turn", "dar vuelta", "tern"], ["stop", "alto / detenerse", "stop"], ["go", "ir", "gou"], ["back", "atrás / regresar", "bak"], ["around", "alrededor", "a-RAUND"], ["corner", "esquina", "COR-ner"]]}, {"t": "Direcciones: frases", "tip": "Para pedir ayuda empieza con Excuse me. Es la forma educada.", "items": [["Excuse me!", "¡Disculpe!", "ex-CIUS mi"], ["Where is the bank?", "¿Dónde está el banco?", "uer is de bank"], ["How do I get to the park?", "¿Cómo llego al parque?", "jau du ai guet tu de park"], ["Is it far from here?", "¿Está lejos de aquí?", "is it far from jir"], ["Go straight.", "Siga derecho.", "gou streit"], ["Go straight two blocks.", "Siga derecho dos cuadras.", "gou streit tu bloks"], ["Turn left.", "Dé vuelta a la izquierda.", "tern left"], ["Turn right.", "Dé vuelta a la derecha.", "tern rait"], ["Turn left at the corner.", "Dé vuelta a la izquierda en la esquina.", "tern left at de COR-ner"], ["It's next to the bank.", "Está junto al banco.", "its next tu de bank"], ["It's across from the school.", "Está frente a la escuela.", "its a-CROS from de scul"], ["It's near here.", "Está cerca de aquí.", "its nir jir"], ["Thank you very much!", "¡Muchas gracias!", "zenk iu VE-ri moch"], ["You're welcome.", "De nada.", "ior UEL-com"]]}]};
+const $=s=>document.querySelector(s);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const TTS="speechSynthesis" in window;let voice=null,tok=0;
+const pick=()=>{const v=speechSynthesis.getVoices();voice=v.find(x=>/^en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null};
+if(TTS){pick();speechSynthesis.onvoiceschanged=pick}
+function say(t,rate,done){if(!TTS)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";if(voice)u.voice=voice;u.rate=rate;if(done)u.onend=done;speechSynthesis.speak(u)}
+const spk=it=>(it[3]||it[0]).replace(/…/g,"").replace(/\//g,",");
+function playAll(items,cards){const my=++tok;const n=k=>{cards.forEach(c=>c.classList.remove("on"));if(my!==tok||k>=items.length)return;cards[k].classList.add("on");say(spk(items[k]),.8,()=>setTimeout(()=>n(k+1),500))};n(0)}
+const S=[{k:"title"}],first=[0];
+D.topics.forEach(t=>{const wide=t.items.some(i=>i[0].length>16),n=wide?6:8,parts=Math.ceil(t.items.length/n);first.push(S.length);for(let p=0;p<parts;p++)S.push({k:"cards",t,wide,p,parts,items:t.items.slice(p*n,p*n+n)})});
+first.push(S.length);S.push({k:"end"});
+const J=$("#jump");[["Inicio",0]].concat(D.topics.map((t,k)=>[t.t,first[k+1]])).concat([["Final",first[first.length-1]]]).forEach(([l,v])=>{const o=el("option","",l);o.value=v;J.append(o)});
+J.onchange=()=>go(+J.value);
+let i=0;
+function go(n){i=Math.max(0,Math.min(S.length-1,n));tok++;if(TTS)speechSynthesis.cancel();render();window.scrollTo(0,0)}
+function render(){
+ const s=S[i],m=$("#m");m.innerHTML="";
+ if(s.k!=="cards"){
+  const t=s.k==="title",h=el("div","hero");
+  h.append(el("div","logo","G!"),el("div","kick",t?"A0 · Unidad "+D.n:"¡Unidad "+D.n+" completa!"),el("h1","",t?D.title:"Muy bien. Ahora a practicar."));
+  h.append(el("p","",t?"Toca 🔈 Lento o 🔊 Rápido en cada tarjeta para escuchar. La pronunciación en color se lee como en español; las MAYÚSCULAS marcan la sílaba fuerte.":"Repasa las tarjetas las veces que quieras y luego practica en el juego de tu nivel."));
+  m.append(h);
+ }else{
+  const top=el("div","top");top.append(el("h2","topic",s.t.t),el("span","tag","Parte "+(s.p+1)+" de "+s.parts));m.append(top);
+  if(s.t.tip)m.append(el("p","tip","💡 "+s.t.tip));
+  const g=el("div","grid"+(s.wide?" w":"")),cards=[];
+  if(TTS){const b=el("button","btn sm","🔊 Escuchar todas");b.onclick=()=>playAll(s.items,cards);m.append(b)}
+  else m.append(el("p","tip","Tu navegador no tiene voz. Abre la presentación en Chrome o Edge."));
+  s.items.forEach(it=>{
+   const c=el("div","c");c.append(el("div","w",it[0]),el("div","p",it[2]),el("div","m",it[1]));
+   if(TTS){const r=el("div","b");[["🔈 Lento",.5],["🔊 Rápido",1]].forEach(([l,v])=>{const b=el("button","",l);b.onclick=()=>{tok++;cards.forEach(x=>x.classList.remove("on"));say(spk(it),v)};r.append(b)});c.append(r)}
+   g.append(c);cards.push(c)});
+  m.append(g);
+ }
+ $("#prev").disabled=i===0;$("#next").disabled=i===S.length-1;
+ $("#bar").style.width=(i/(S.length-1)*100)+"%";$("#cnt").textContent=(i+1)+" / "+S.length;
+ let sel=0;[...J.options].forEach((o,k)=>{if(+o.value<=i)sel=k});J.selectedIndex=sel;
+}
+$("#prev").onclick=()=>go(i-1);$("#next").onclick=()=>go(i+1);
+addEventListener("keydown",e=>{if(e.target.tagName==="SELECT")return;if(e.key==="ArrowRight")go(i+1);if(e.key==="ArrowLeft")go(i-1)});
+render();
+</script></body></html>
