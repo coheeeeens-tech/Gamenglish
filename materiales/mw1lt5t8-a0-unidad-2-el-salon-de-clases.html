@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gamenglish A0 · Unidad 2: El salón de clases</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3eddc;--ink:#1b2e2a;--coral:#e8694f;--co2:#c4442b;--lime:#d4e157;--sky:#82b4da;--card:#fffaf0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.4 "DM Sans",system-ui,sans-serif;min-height:100vh}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+header{display:flex;align-items:center;gap:12px;padding:12px 4vw;border-bottom:1px solid #1b2e2a33}
+.logo{width:36px;height:36px;border-radius:50%;background:var(--lime);border:2px solid var(--ink);display:grid;place-items:center;font:800 17px "Bricolage Grotesque",sans-serif;flex:none}
+header b{font:800 16px "Bricolage Grotesque",sans-serif}
+header select{margin-left:auto;font:500 15px "DM Sans",sans-serif;padding:8px 10px;border:2px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink);max-width:50vw}
+main{max-width:1150px;margin:0 auto;padding:24px 4vw 120px}
+h1,h2{font-family:"Bricolage Grotesque",sans-serif;letter-spacing:-.04em;line-height:.95;margin:0}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.topic{font-size:clamp(34px,5vw,60px);font-weight:800}
+.tag{border:2px solid var(--ink);border-radius:30px;padding:4px 14px;font-weight:700;font-size:14px;background:var(--card)}
+.tip{background:var(--lime);border:2.5px solid var(--ink);border-radius:14px;padding:10px 16px;margin:16px 0 0;font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.grid.w{grid-template-columns:repeat(3,1fr)}
+.c{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;padding:16px;box-shadow:4px 4px 0 var(--ink);display:flex;flex-direction:column;gap:6px;transition:background .15s}
+.c.on{background:var(--lime)}
+.c .w{font:800 clamp(24px,3vw,34px)/1.05 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.c .p{color:var(--co2);font-weight:700;font-size:18px}
+.c .m{opacity:.85}
+.b{display:flex;gap:8px;margin-top:auto;padding-top:10px;flex-wrap:wrap}
+.b button{font:700 14px "DM Sans",sans-serif;padding:8px 13px;border:2px solid var(--ink);border-radius:30px;background:var(--bg);color:var(--ink);cursor:pointer}
+.b button:hover{background:var(--sky)}
+.btn{font:700 16px "DM Sans",sans-serif;background:var(--ink);color:#f3eddc;border:0;border-radius:40px;padding:12px 24px;cursor:pointer;box-shadow:4px 4px 0 var(--coral)}
+.btn:disabled{opacity:.35;box-shadow:none;cursor:default}
+.sm{margin-top:16px;padding:10px 20px}
+.hero{display:grid;justify-items:center;text-align:center;gap:18px;padding-top:6vh}
+.hero h1{font-size:clamp(44px,8vw,100px);font-weight:800}
+.hero .logo{width:96px;height:96px;font-size:40px;border-width:3px;box-shadow:5px 5px 0 var(--ink)}
+.kick{font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--co2)}
+.hero p{max-width:34em;margin:0;font-size:19px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid #1b2e2a33;padding:12px 4vw;display:flex;gap:14px;align-items:center}
+.prog{flex:1;height:12px;border:2px solid var(--ink);border-radius:8px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--lime);width:0;transition:width .25s}
+#cnt{font-weight:700;font-size:14px;min-width:54px;text-align:center}
+@media(max-width:900px){.grid,.grid.w{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid,.grid.w{grid-template-columns:1fr}.btn{padding:12px 16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<header><div class="logo">G</div><b>GAMENGLISH · A0 · Unidad 2</b><select id="jump" aria-label="Ir a un tema"></select></header>
+<main id="m"></main>
+<nav><button class="btn" id="prev">← Anterior</button><div class="prog"><i id="bar"></i></div><span id="cnt"></span><button class="btn" id="next">Siguiente →</button></nav>
+<script>
+const D={"n": 2, "title": "El salón de clases", "topics": [{"t": "Objetos del salón", "tip": "Usa a antes de consonante y an antes de vocal: a desk, an eraser.", "items": [["desk", "escritorio / pupitre", "desk"], ["chair", "silla", "cher"], ["table", "mesa", "TEI-bol"], ["board", "pizarrón", "bord"], ["whiteboard", "pizarrón blanco", "UAIT-bord"], ["door", "puerta", "dor"], ["window", "ventana", "UIN-dou"], ["wall", "pared", "uol"], ["floor", "piso", "flor"], ["ceiling", "techo", "SI-ling"], ["clock", "reloj de pared", "clok"], ["projector", "proyector", "pro-YEC-ter"], ["computer", "computadora", "com-PIU-ter"], ["map", "mapa", "map"], ["trash can", "bote de basura", "trash can"], ["bookshelf", "librero", "BUK-shelf"], ["student", "estudiante", "STIU-dent"], ["teacher", "maestro / maestra", "TI-cher"], ["classroom", "salón de clases", "CLAS-rum"]]}, {"t": "Útiles escolares", "tip": "Para hablar de varios: pencils, books. Scissors siempre va en plural.", "items": [["pencil", "lápiz", "PEN-sil"], ["pen", "pluma / bolígrafo", "pen"], ["eraser", "borrador", "i-REI-ser"], ["notebook", "cuaderno", "NOUT-buk"], ["book", "libro", "buk"], ["backpack", "mochila", "BAK-pak"], ["ruler", "regla", "RU-ler"], ["scissors", "tijeras", "SI-sers"], ["glue", "pegamento", "glu"], ["marker", "marcador", "MAR-ker"], ["crayons", "crayones", "CREI-ons"], ["sharpener", "sacapuntas", "SHAR-pe-ner"], ["paper", "papel", "PEI-per"], ["folder", "carpeta", "FOUL-der"], ["highlighter", "resaltador", "JAI-lai-ter"], ["calculator", "calculadora", "CAL-kiu-lei-ter"], ["tape", "cinta adhesiva", "teip"], ["stapler", "engrapadora", "STEI-pler"], ["pencil case", "estuche", "PEN-sil keis"]]}, {"t": "Materias", "tip": "Las materias se escriben con mayúscula: Math, English, History.", "items": [["English", "inglés", "ING-lish"], ["Spanish", "español", "SPA-nish"], ["Math", "matemáticas", "maz"], ["Science", "ciencias", "SAI-ens"], ["History", "historia", "JIS-to-ri"], ["Geography", "geografía", "yi-OG-ra-fi"], ["Art", "arte", "art"], ["Music", "música", "MIU-sic"], ["P.E.", "educación física", "pi i", "P E"], ["Biology", "biología", "bai-OL-o-yi"], ["Chemistry", "química", "KE-mis-tri"], ["Physics", "física", "FI-siks"], ["Computer Science", "computación", "com-PIU-ter SAI-ens"], ["subject", "materia", "SOB-yect"], ["homework", "tarea", "JOUM-uerk"]]}, {"t": "Instrucciones del profe", "tip": "Estas frases las escucharás todos los días en clase.", "items": [["Sit down.", "Siéntense.", "sit daun"], ["Stand up.", "Levántense.", "stand op"], ["Open your book.", "Abran su libro.", "OU-pen ior buk"], ["Close your book.", "Cierren su libro.", "clous ior buk"], ["Listen.", "Escuchen.", "LI-sen"], ["Look at the board.", "Miren el pizarrón.", "luk at de bord"], ["Repeat.", "Repitan.", "ri-PIT"], ["Read.", "Lean.", "rid"], ["Write.", "Escriban.", "rait"], ["Raise your hand.", "Levanten la mano.", "reis ior jand"], ["Be quiet.", "Guarden silencio.", "bi CUAI-et"], ["Come here.", "Vengan aquí.", "com jir"], ["Pay attention.", "Pongan atención.", "pei a-TEN-shon"], ["Work in pairs.", "Trabajen en parejas.", "uerk in pers"], ["Work in groups.", "Trabajen en equipos.", "uerk in grups"], ["Take out your notebook.", "Saquen su cuaderno.", "teik aut ior NOUT-buk"]]}, {"t": "Frases útiles", "tip": "Guarda estas frases: te sacan de apuros en cualquier clase.", "items": [["How do you say … in English?", "¿Cómo se dice … en inglés?", "jau du iu sei … in ING-lish"], ["I don't understand.", "No entiendo.", "ai dount on-der-STAND"], ["Can you repeat, please?", "¿Puede repetir, por favor?", "can iu ri-PIT plis"], ["Speak slowly, please.", "Hable despacio, por favor.", "spik SLOU-li plis"], ["What does … mean?", "¿Qué significa …?", "uat dos … min"], ["May I go to the bathroom?", "¿Puedo ir al baño?", "mei ai gou tu de BAZ-rum"], ["May I come in?", "¿Puedo pasar?", "mei ai com in"], ["I'm sorry I'm late.", "Perdón por llegar tarde.", "aim SO-ri aim leit"], ["I have a question.", "Tengo una pregunta.", "ai jav a CUES-chon"], ["I don't know.", "No sé.", "ai dount nou"], ["I know.", "Yo sé.", "ai nou"]]}]};
+const $=s=>document.querySelector(s);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const TTS="speechSynthesis" in window;let voice=null,tok=0;
+const pick=()=>{const v=speechSynthesis.getVoices();voice=v.find(x=>/^en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null};
+if(TTS){pick();speechSynthesis.onvoiceschanged=pick}
+function say(t,rate,done){if(!TTS)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";if(voice)u.voice=voice;u.rate=rate;if(done)u.onend=done;speechSynthesis.speak(u)}
+const spk=it=>(it[3]||it[0]).replace(/…/g,"").replace(/\//g,",");
+function playAll(items,cards){const my=++tok;const n=k=>{cards.forEach(c=>c.classList.remove("on"));if(my!==tok||k>=items.length)return;cards[k].classList.add("on");say(spk(items[k]),.8,()=>setTimeout(()=>n(k+1),500))};n(0)}
+const S=[{k:"title"}],first=[0];
+D.topics.forEach(t=>{const wide=t.items.some(i=>i[0].length>16),n=wide?6:8,parts=Math.ceil(t.items.length/n);first.push(S.length);for(let p=0;p<parts;p++)S.push({k:"cards",t,wide,p,parts,items:t.items.slice(p*n,p*n+n)})});
+first.push(S.length);S.push({k:"end"});
+const J=$("#jump");[["Inicio",0]].concat(D.topics.map((t,k)=>[t.t,first[k+1]])).concat([["Final",first[first.length-1]]]).forEach(([l,v])=>{const o=el("option","",l);o.value=v;J.append(o)});
+J.onchange=()=>go(+J.value);
+let i=0;
+function go(n){i=Math.max(0,Math.min(S.length-1,n));tok++;if(TTS)speechSynthesis.cancel();render();window.scrollTo(0,0)}
+function render(){
+ const s=S[i],m=$("#m");m.innerHTML="";
+ if(s.k!=="cards"){
+  const t=s.k==="title",h=el("div","hero");
+  h.append(el("div","logo","G!"),el("div","kick",t?"A0 · Unidad "+D.n:"¡Unidad "+D.n+" completa!"),el("h1","",t?D.title:"Muy bien. Ahora a practicar."));
+  h.append(el("p","",t?"Toca 🔈 Lento o 🔊 Rápido en cada tarjeta para escuchar. La pronunciación en color se lee como en español; las MAYÚSCULAS marcan la sílaba fuerte.":"Repasa las tarjetas las veces que quieras y luego practica en el juego de tu nivel."));
+  m.append(h);
+ }else{
+  const top=el("div","top");top.append(el("h2","topic",s.t.t),el("span","tag","Parte "+(s.p+1)+" de "+s.parts));m.append(top);
+  if(s.t.tip)m.append(el("p","tip","💡 "+s.t.tip));
+  const g=el("div","grid"+(s.wide?" w":"")),cards=[];
+  if(TTS){const b=el("button","btn sm","🔊 Escuchar todas");b.onclick=()=>playAll(s.items,cards);m.append(b)}
+  else m.append(el("p","tip","Tu navegador no tiene voz. Abre la presentación en Chrome o Edge."));
+  s.items.forEach(it=>{
+   const c=el("div","c");c.append(el("div","w",it[0]),el("div","p",it[2]),el("div","m",it[1]));
+   if(TTS){const r=el("div","b");[["🔈 Lento",.5],["🔊 Rápido",1]].forEach(([l,v])=>{const b=el("button","",l);b.onclick=()=>{tok++;cards.forEach(x=>x.classList.remove("on"));say(spk(it),v)};r.append(b)});c.append(r)}
+   g.append(c);cards.push(c)});
+  m.append(g);
+ }
+ $("#prev").disabled=i===0;$("#next").disabled=i===S.length-1;
+ $("#bar").style.width=(i/(S.length-1)*100)+"%";$("#cnt").textContent=(i+1)+" / "+S.length;
+ let sel=0;[...J.options].forEach((o,k)=>{if(+o.value<=i)sel=k});J.selectedIndex=sel;
+}
+$("#prev").onclick=()=>go(i-1);$("#next").onclick=()=>go(i+1);
+addEventListener("keydown",e=>{if(e.target.tagName==="SELECT")return;if(e.key==="ArrowRight")go(i+1);if(e.key==="ArrowLeft")go(i-1)});
+render();
+</script></body></html>
