@@ -167,10 +167,11 @@ $("loginForm").onsubmit=async e=>{
   lsSet("gam_session",u.id);enter(u);
 };
 $("logout").onclick=()=>{lsSet("gam_session",null);location.reload()};
-$("adminBtn").onclick=()=>{view=view==="admin"?"class":"admin";render()};
+async function refreshAll(){if(!tok())return;try{STU=merge((await readJson("students.json")).data)}catch(e){}try{RES=(await readJson("resources.json")).data}catch(e){}}
+$("adminBtn").onclick=()=>{view=view==="admin"?"class":"admin";render();if(view==="admin")refreshAll().then(()=>{if(view==="admin")render()})};
 function enter(u){
   user=u;S=Object.assign({xp:0,best:0},lsGet("gam_u_"+u.id,{}));
-  $("loginView").hidden=true;$("appView").hidden=false;$("logout").hidden=false;$("who").textContent=u.name;$("adminBtn").hidden=!u.teacher;view="class";
+  $("loginView").hidden=true;$("appView").hidden=false;$("logout").hidden=false;$("who").textContent=u.name;$("adminBtn").hidden=!u.teacher;view="class";if(u.teacher)refreshAll().then(()=>{if(user===u)render()});
   $("title").textContent=u.teacher?"Panel del profesor":"Mi clase";
   $("sub").textContent=u.teacher?"Elige un nivel y una sección para agregar tus materiales.":"Elige tu nivel y empieza.";
   render();
