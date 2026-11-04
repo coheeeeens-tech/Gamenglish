@@ -1,0 +1,90 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Gamenglish A0 · Unidad 4: La casa</title>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f3eddc;--ink:#1b2e2a;--coral:#e8694f;--co2:#c4442b;--lime:#d4e157;--sky:#82b4da;--card:#fffaf0}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.4 "DM Sans",system-ui,sans-serif;min-height:100vh}
+:focus-visible{outline:3px solid var(--coral);outline-offset:3px}
+header{display:flex;align-items:center;gap:12px;padding:12px 4vw;border-bottom:1px solid #1b2e2a33}
+.logo{width:36px;height:36px;border-radius:50%;background:var(--lime);border:2px solid var(--ink);display:grid;place-items:center;font:800 17px "Bricolage Grotesque",sans-serif;flex:none}
+header b{font:800 16px "Bricolage Grotesque",sans-serif}
+header select{margin-left:auto;font:500 15px "DM Sans",sans-serif;padding:8px 10px;border:2px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink);max-width:50vw}
+main{max-width:1150px;margin:0 auto;padding:24px 4vw 120px}
+h1,h2{font-family:"Bricolage Grotesque",sans-serif;letter-spacing:-.04em;line-height:.95;margin:0}
+.top{display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.topic{font-size:clamp(34px,5vw,60px);font-weight:800}
+.tag{border:2px solid var(--ink);border-radius:30px;padding:4px 14px;font-weight:700;font-size:14px;background:var(--card)}
+.tip{background:var(--lime);border:2.5px solid var(--ink);border-radius:14px;padding:10px 16px;margin:16px 0 0;font-weight:500}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:20px}
+.grid.w{grid-template-columns:repeat(3,1fr)}
+.c{background:var(--card);border:2.5px solid var(--ink);border-radius:18px;padding:16px;box-shadow:4px 4px 0 var(--ink);display:flex;flex-direction:column;gap:6px;transition:background .15s}
+.c.on{background:var(--lime)}
+.c .w{font:800 clamp(24px,3vw,34px)/1.05 "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}
+.c .p{color:var(--co2);font-weight:700;font-size:18px}
+.c .m{opacity:.85}
+.b{display:flex;gap:8px;margin-top:auto;padding-top:10px;flex-wrap:wrap}
+.b button{font:700 14px "DM Sans",sans-serif;padding:8px 13px;border:2px solid var(--ink);border-radius:30px;background:var(--bg);color:var(--ink);cursor:pointer}
+.b button:hover{background:var(--sky)}
+.btn{font:700 16px "DM Sans",sans-serif;background:var(--ink);color:#f3eddc;border:0;border-radius:40px;padding:12px 24px;cursor:pointer;box-shadow:4px 4px 0 var(--coral)}
+.btn:disabled{opacity:.35;box-shadow:none;cursor:default}
+.sm{margin-top:16px;padding:10px 20px}
+.hero{display:grid;justify-items:center;text-align:center;gap:18px;padding-top:6vh}
+.hero h1{font-size:clamp(44px,8vw,100px);font-weight:800}
+.hero .logo{width:96px;height:96px;font-size:40px;border-width:3px;box-shadow:5px 5px 0 var(--ink)}
+.kick{font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--co2)}
+.hero p{max-width:34em;margin:0;font-size:19px}
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--bg);border-top:1px solid #1b2e2a33;padding:12px 4vw;display:flex;gap:14px;align-items:center}
+.prog{flex:1;height:12px;border:2px solid var(--ink);border-radius:8px;overflow:hidden}
+.prog i{display:block;height:100%;background:var(--lime);width:0;transition:width .25s}
+#cnt{font-weight:700;font-size:14px;min-width:54px;text-align:center}
+@media(max-width:900px){.grid,.grid.w{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:560px){.grid,.grid.w{grid-template-columns:1fr}.btn{padding:12px 16px}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style></head><body>
+<header><div class="logo">G</div><b>GAMENGLISH · A0 · Unidad 4</b><select id="jump" aria-label="Ir a un tema"></select></header>
+<main id="m"></main>
+<nav><button class="btn" id="prev">← Anterior</button><div class="prog"><i id="bar"></i></div><span id="cnt"></span><button class="btn" id="next">Siguiente →</button></nav>
+<script>
+const D={"n": 4, "title": "La casa", "topics": [{"t": "Cuartos de la casa", "tip": "There is = hay (uno). There are = hay (varios).", "items": [["house", "casa", "jaus"], ["home", "hogar", "joum"], ["apartment", "departamento", "a-PART-ment"], ["room", "cuarto", "rum"], ["living room", "sala", "LI-ving rum"], ["dining room", "comedor", "DAI-ning rum"], ["kitchen", "cocina", "KI-chen"], ["bedroom", "recámara", "BED-rum"], ["bathroom", "baño", "BAZ-rum"], ["garage", "garaje", "ga-RASH"], ["garden", "jardín", "GAR-den"], ["yard", "patio", "yard"], ["backyard", "patio trasero", "BAK-yard"], ["hallway", "pasillo", "JOL-uei"], ["basement", "sótano", "BEIS-ment"], ["attic", "ático", "A-tic"], ["roof", "techo", "ruf"], ["stairs", "escaleras", "sters"], ["balcony", "balcón", "BAL-co-ni"], ["laundry room", "cuarto de lavado", "LON-dri rum"], ["office", "oficina", "O-fis"], ["floor", "piso", "flor"], ["upstairs", "arriba", "op-STERS"], ["downstairs", "abajo", "daun-STERS"]]}, {"t": "Muebles", "tip": "", "items": [["furniture", "muebles", "FER-ni-cher"], ["sofa", "sofá", "SOU-fa"], ["couch", "sillón", "cauch"], ["armchair", "sillón individual", "ARM-cher"], ["chair", "silla", "cher"], ["table", "mesa", "TEI-bol"], ["coffee table", "mesa de centro", "CO-fi TEI-bol"], ["desk", "escritorio", "desk"], ["bed", "cama", "bed"], ["bunk bed", "litera", "bonk bed"], ["crib", "cuna", "crib"], ["mattress", "colchón", "MA-tres"], ["pillow", "almohada", "PI-lou"], ["blanket", "cobija", "BLAN-ket"], ["sheets", "sábanas", "shits"], ["wardrobe", "ropero", "UOR-droub"], ["closet", "clóset", "CLO-set"], ["dresser", "cómoda", "DRE-ser"], ["nightstand", "buró", "NAIT-stand"], ["shelf", "estante", "shelf"], ["bookcase", "librero", "BUK-keis"], ["TV stand", "mueble de TV", "ti-VI stand"], ["lamp", "lámpara", "lamp"], ["rug", "tapete", "rog"], ["carpet", "alfombra", "CAR-pet"], ["curtains", "cortinas", "CER-tens"], ["mirror", "espejo", "MI-rer"], ["painting", "cuadro", "PEIN-ting"], ["fan", "ventilador", "fan"]]}, {"t": "Objetos de la cocina", "tip": "", "items": [["refrigerator", "refrigerador", "ri-FRI-ye-rei-ter"], ["fridge", "refri", "frich"], ["freezer", "congelador", "FRI-zer"], ["stove", "estufa", "stouv"], ["oven", "horno", "O-ven"], ["microwave", "microondas", "MAI-cro-ueiv"], ["sink", "fregadero", "sink"], ["dishwasher", "lavavajillas", "DISH-uo-sher"], ["blender", "licuadora", "BLEN-der"], ["toaster", "tostador", "TOUS-ter"], ["coffee maker", "cafetera", "CO-fi MEI-ker"], ["kettle", "hervidor", "KE-tol"], ["pot", "olla", "pot"], ["pan", "sartén", "pan"], ["frying pan", "sartén para freír", "FRAI-ing pan"], ["lid", "tapa", "lid"], ["plate", "plato", "pleit"], ["bowl", "tazón", "boul"], ["cup", "taza", "cop"], ["mug", "tarro", "mog"], ["glass", "vaso", "glas"], ["bottle", "botella", "BA-tol"], ["fork", "tenedor", "fork"], ["knife", "cuchillo", "naif"], ["spoon", "cuchara", "spun"], ["teaspoon", "cucharita", "TI-spun"], ["cutting board", "tabla de picar", "CO-ting bord"], ["napkin", "servilleta", "NAP-kin"], ["tray", "charola", "trei"], ["jar", "frasco", "yar"], ["can opener", "abrelatas", "can OU-pe-ner"], ["grater", "rallador", "GREI-ter"], ["apron", "delantal", "EI-pron"], ["dish towel", "trapo de cocina", "dish TAU-el"], ["sponge", "esponja", "sponch"], ["counter", "encimera", "CAUN-ter"], ["cabinet", "gabinete", "CA-bi-net"], ["drawer", "cajón", "dror"]]}, {"t": "Objetos del baño", "tip": "", "items": [["toilet", "inodoro", "TOI-let"], ["sink", "lavabo", "sink"], ["bathtub", "bañera", "BAZ-tob"], ["shower", "regadera", "SHAU-er"], ["faucet", "llave del agua", "FO-set"], ["towel", "toalla", "TAU-el"], ["soap", "jabón", "soup"], ["shampoo", "shampoo", "sham-PU"], ["conditioner", "acondicionador", "con-DI-sho-ner"], ["toothbrush", "cepillo de dientes", "TUZ-brosh"], ["toothpaste", "pasta de dientes", "TUZ-peist"], ["comb", "peine", "coum"], ["hairbrush", "cepillo para el cabello", "JER-brosh"], ["hair dryer", "secadora de pelo", "jer DRAI-er"], ["razor", "rastrillo", "REI-ser"], ["toilet paper", "papel de baño", "TOI-let PEI-per"], ["tissue", "pañuelo desechable", "TI-shu"], ["cotton", "algodón", "CA-ton"], ["scale", "báscula", "skeil"], ["bath mat", "tapete de baño", "baz mat"], ["shower curtain", "cortina de baño", "SHAU-er CER-ten"], ["lotion", "crema", "LOU-shon"], ["deodorant", "desodorante", "di-OU-do-rent"], ["mirror", "espejo", "MI-rer"]]}, {"t": "Objetos de la casa", "tip": "Usa there is para uno y there are para varios: There is a lamp. There are two chairs.", "items": [["door", "puerta", "dor"], ["window", "ventana", "UIN-dou"], ["key", "llave", "ki"], ["lock", "cerradura", "lok"], ["doorbell", "timbre", "DOR-bel"], ["mailbox", "buzón", "MEIL-box"], ["light", "luz", "lait"], ["light bulb", "foco", "lait bolb"], ["switch", "interruptor", "suich"], ["outlet", "enchufe", "AUT-let"], ["plug", "clavija", "plog"], ["elevator", "elevador", "E-le-vei-ter"], ["broom", "escoba", "brum"], ["mop", "trapeador", "mop"], ["dustpan", "recogedor", "DOST-pan"], ["bucket", "cubeta", "BO-ket"], ["vacuum cleaner", "aspiradora", "VA-kiu-um CLI-ner"], ["washing machine", "lavadora", "UO-shing ma-SHIN"], ["dryer", "secadora", "DRAI-er"], ["iron", "plancha", "AI-ern"], ["hanger", "gancho de ropa", "JAN-ger"], ["laundry basket", "canasto de ropa", "LON-dri BAS-ket"], ["remote control", "control remoto", "ri-MOUT con-TROUL"], ["television", "televisión", "TE-le-vi-shon"], ["radio", "radio", "REI-dio"], ["telephone", "teléfono", "TE-le-foun"], ["air conditioner", "aire acondicionado", "er con-DI-sho-ner"], ["heater", "calentador", "JI-ter"], ["candle", "vela", "CAN-dol"], ["box", "caja", "box"], ["toy", "juguete", "toi"], ["trash", "basura", "trash"]]}]};
+const $=s=>document.querySelector(s);
+const el=(t,c,x)=>{const e=document.createElement(t);if(c)e.className=c;if(x!=null)e.textContent=x;return e};
+const TTS="speechSynthesis" in window;let voice=null,tok=0;
+const pick=()=>{const v=speechSynthesis.getVoices();voice=v.find(x=>/^en[-_]US/i.test(x.lang))||v.find(x=>/^en/i.test(x.lang))||null};
+if(TTS){pick();speechSynthesis.onvoiceschanged=pick}
+function say(t,rate,done){if(!TTS)return;speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t);u.lang="en-US";if(voice)u.voice=voice;u.rate=rate;if(done)u.onend=done;speechSynthesis.speak(u)}
+const spk=it=>(it[3]||it[0]).replace(/…/g,"").replace(/\//g,",");
+function playAll(items,cards){const my=++tok;const n=k=>{cards.forEach(c=>c.classList.remove("on"));if(my!==tok||k>=items.length)return;cards[k].classList.add("on");say(spk(items[k]),.8,()=>setTimeout(()=>n(k+1),500))};n(0)}
+const S=[{k:"title"}],first=[0];
+D.topics.forEach(t=>{const wide=t.items.some(i=>i[0].length>16),n=wide?6:8,parts=Math.ceil(t.items.length/n);first.push(S.length);for(let p=0;p<parts;p++)S.push({k:"cards",t,wide,p,parts,items:t.items.slice(p*n,p*n+n)})});
+first.push(S.length);S.push({k:"end"});
+const J=$("#jump");[["Inicio",0]].concat(D.topics.map((t,k)=>[t.t,first[k+1]])).concat([["Final",first[first.length-1]]]).forEach(([l,v])=>{const o=el("option","",l);o.value=v;J.append(o)});
+J.onchange=()=>go(+J.value);
+let i=0;
+function go(n){i=Math.max(0,Math.min(S.length-1,n));tok++;if(TTS)speechSynthesis.cancel();render();window.scrollTo(0,0)}
+function render(){
+ const s=S[i],m=$("#m");m.innerHTML="";
+ if(s.k!=="cards"){
+  const t=s.k==="title",h=el("div","hero");
+  h.append(el("div","logo","G!"),el("div","kick",t?"A0 · Unidad "+D.n:"¡Unidad "+D.n+" completa!"),el("h1","",t?D.title:"Muy bien. Ahora a practicar."));
+  h.append(el("p","",t?"Toca 🔈 Lento o 🔊 Rápido en cada tarjeta para escuchar. La pronunciación en color se lee como en español; las MAYÚSCULAS marcan la sílaba fuerte.":"Repasa las tarjetas las veces que quieras y luego practica en el juego de tu nivel."));
+  m.append(h);
+ }else{
+  const top=el("div","top");top.append(el("h2","topic",s.t.t),el("span","tag","Parte "+(s.p+1)+" de "+s.parts));m.append(top);
+  if(s.t.tip)m.append(el("p","tip","💡 "+s.t.tip));
+  const g=el("div","grid"+(s.wide?" w":"")),cards=[];
+  if(TTS){const b=el("button","btn sm","🔊 Escuchar todas");b.onclick=()=>playAll(s.items,cards);m.append(b)}
+  else m.append(el("p","tip","Tu navegador no tiene voz. Abre la presentación en Chrome o Edge."));
+  s.items.forEach(it=>{
+   const c=el("div","c");c.append(el("div","w",it[0]),el("div","p",it[2]),el("div","m",it[1]));
+   if(TTS){const r=el("div","b");[["🔈 Lento",.5],["🔊 Rápido",1]].forEach(([l,v])=>{const b=el("button","",l);b.onclick=()=>{tok++;cards.forEach(x=>x.classList.remove("on"));say(spk(it),v)};r.append(b)});c.append(r)}
+   g.append(c);cards.push(c)});
+  m.append(g);
+ }
+ $("#prev").disabled=i===0;$("#next").disabled=i===S.length-1;
+ $("#bar").style.width=(i/(S.length-1)*100)+"%";$("#cnt").textContent=(i+1)+" / "+S.length;
+ let sel=0;[...J.options].forEach((o,k)=>{if(+o.value<=i)sel=k});J.selectedIndex=sel;
+}
+$("#prev").onclick=()=>go(i-1);$("#next").onclick=()=>go(i+1);
+addEventListener("keydown",e=>{if(e.target.tagName==="SELECT")return;if(e.key==="ArrowRight")go(i+1);if(e.key==="ArrowLeft")go(i-1)});
+render();
+</script></body></html>
