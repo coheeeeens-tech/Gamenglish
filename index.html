@@ -130,7 +130,7 @@ async function updateList(f,fn,msg){const{data,sha}=await readJson(f);const nd=f
 
 const LEVELS=[["A0","Primeros pasos"],["A1","Principiante"],["A2","Básico"],["B1","Intermedio"],["B2","Intermedio alto"],["C1","Avanzado"],["C2","Maestría"]];
 const SECS=[["presentaciones","📊","Presentaciones"],["videos","🎬","Videos"],["guias","📋","Guías"],["juego","🎮","Juego"],["progreso","⭐","Mi progreso"]];
-const ICON={presentaciones:"📊",videos:"🎬",guias:"📋"};
+const ICON={presentaciones:"📊",videos:"🎬",guias:"📋",juego:"🎮"};
 const BANK=[
 ["A1","I ___ a student.",["am","is","are","be"],0,"Yo soy estudiante."],
 ["A1","She ___ tea every morning.",["drink","drinks","drinking","drinked"],1,"Ella toma té cada mañana."],
@@ -193,7 +193,7 @@ function render(){
   const secs=SECS;
   secs.forEach(([k,i,n])=>{const b=h("button","tab",i+" "+n);b.setAttribute("aria-pressed",k===sec);b.onclick=()=>{sec=k;showForm=false;render()};T.appendChild(b)});
   const C=$("content");C.innerHTML="";
-  if(ICON[sec])resources(C);else if(sec==="juego")game(C);else if(sec==="progreso")progress(C);else admin(C);
+  if(ICON[sec]){resources(C);if(sec==="juego")game(C)}else if(sec==="progreso")progress(C);else admin(C);
 }
 
 /* resources */
@@ -237,7 +237,7 @@ const PRAISE=["Brilliant!","You nailed it.","Nice one!","Spot on."];
 const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a};
 function game(C){
   const qs=BANK.filter(q=>q[0]===lvl);
-  if(qs.length<4){C.appendChild(h("div","empty","Los juegos del nivel "+lvl+" llegarán pronto. Prueba con A1, A2 o B1."));return}
+  if(qs.length<4)return;
   const g=h("div","card");g.setAttribute("aria-live","polite");C.appendChild(g);
   R={qs:shuffle(qs).slice(0,8),i:0,score:0,streak:0,g};show();
 }
