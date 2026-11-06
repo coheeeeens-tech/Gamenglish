@@ -164,9 +164,9 @@ $("loginForm").onsubmit=async e=>{
   const id=$("uid").value.trim().toLowerCase(),hs=await sha("gamenglish:"+id+":"+$("pw").value);
   const u=STU.find(s=>s.id.toLowerCase()===id&&s.hash===hs);
   if(!u){$("err").textContent="El ID o la contraseña no son correctos. Revisa ambos e inténtalo otra vez.";return}
-  lsSet("gam_session",u.id);enter(u);
+  if(u.teacher){try{sessionStorage.setItem("gam_tsession",u.id)}catch(e){}}else lsSet("gam_session",u.id);enter(u);
 };
-$("logout").onclick=()=>{lsSet("gam_session",null);location.reload()};
+$("logout").onclick=()=>{lsSet("gam_session",null);try{sessionStorage.removeItem("gam_tsession")}catch(e){}location.reload()};
 async function refreshAll(){if(!tok())return;try{STU=merge((await readJson("students.json")).data)}catch(e){}try{RES=(await readJson("resources.json")).data}catch(e){}}
 $("adminBtn").onclick=()=>{view=view==="admin"?"class":"admin";render();if(view==="admin")refreshAll().then(()=>{if(view==="admin")render()})};
 function enter(u){
@@ -308,10 +308,23 @@ function admin(C){
       render();
     }catch(x){e.textContent=x.message;btn.disabled=false}
   };
-  C.append(c,a);
+  const pc=h("div","card");pc.style.marginTop="22px";
+  pc.innerHTML=`<div class="d" style="font-size:26px">Mi contraseña de profesor</div><p>Cámbiala por una que solo tú sepas. Al guardarla, la anterior deja de servir.</p><label for="tpw">Contraseña nueva (mínimo 8 caracteres)</label><input id="tpw" type="password" autocomplete="new-password"><p class="err" id="perr"></p><button class="btn" id="tsv" type="button">Guardar contraseña</button>`;
+  pc.querySelector("#tsv").onclick=async()=>{const pw=pc.querySelector("#tpw").value,e=pc.querySelector("#perr");
+    if(!tok()){e.textContent="Primero conecta GitHub arriba.";return}
+    if(pw.length<8){e.textContent="Usa al menos 8 caracteres.";return}
+    e.textContent="Guardando…";
+    try{const hs=await sha("gamenglish:profe:"+pw);
+      STU=merge(await updateList("students.json",d=>d.filter(x=>x.id!=="profe").concat([{id:"profe",name:"Teacher",teacher:true,hash:hs}]),"Cambiar contraseña del profe"));
+      e.textContent="Listo. Úsala la próxima vez que entres (tarda 1 o 2 minutos en activarse).";pc.querySelector("#tpw").value=""}
+    catch(x){e.textContent=x.message}};
+  C.append(c,a,pc);
 }
 
-ready.then(()=>{const sid=lsGet("gam_session",null);if(sid){const u=STU.find(s=>s.id===sid);if(u)enter(u)}});
+ready.then(()=>{let ts=null;try{ts=sessionStorage.getItem("gam_tsession")}catch(e){}
+  const sid=lsGet("gam_session",null);
+  const u=ts?STU.find(s=>s.id===ts&&s.teacher):STU.find(s=>s.id===sid&&!s.teacher);
+  if(u)enter(u);else if(sid)lsSet("gam_session",null)});
 </script>
 </body>
 </html>
