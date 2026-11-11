@@ -72,6 +72,12 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:9px 8px;
 select{font:500 16px "DM Sans",sans-serif;padding:9px 12px;border:2px solid var(--ink);border-radius:12px;background:var(--card);color:var(--ink)}
 .chips{display:flex;gap:8px;flex-wrap:wrap;min-height:54px;padding:8px;border:2.5px dashed var(--ink);border-radius:14px;margin:10px 0}
 .chip{font:700 18px "DM Sans",sans-serif;padding:8px 14px;border:2.5px solid var(--ink);border-radius:12px;background:var(--sky);color:var(--ink);cursor:pointer}.chip.on{background:var(--lime)}
+.xstat{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:0 0 10px;font-weight:700}
+.badge{display:inline-block;border:2px solid var(--ink);border-radius:30px;padding:5px 16px;background:var(--card);font-weight:800;font-size:16px}
+.part{display:inline-block;background:var(--lime);color:#1b2e2a;border:2px solid var(--ink);border-radius:30px;padding:5px 16px;font-weight:700;font-size:14px;margin-bottom:14px}
+.mt{display:grid;grid-template-columns:1fr 1fr;gap:16px}.mcol{display:flex;flex-direction:column;gap:10px}
+.mb{font:600 17px "DM Sans",sans-serif;text-align:left;padding:13px 14px;border:2.5px solid var(--ink);border-radius:14px;background:var(--bg);color:var(--ink);cursor:pointer;min-height:52px}
+.mb.sel{outline:3px solid var(--coral);outline-offset:2px}.mb.on{color:#1b2e2a}.mb i{font-style:normal;font-weight:800}
 .cal{width:100%;border-collapse:separate;border-spacing:5px;table-layout:fixed}.cal th{font-size:13px;opacity:.7}.cal td{padding:0}
 .cal button{width:100%;min-height:58px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:700 16px "DM Sans",sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px}
 .cal button.today{border-color:var(--coral)}.cal button.sel{background:var(--lime);color:#1b2e2a;border-color:#1b2e2a}
@@ -431,24 +437,34 @@ function runQuiz(w){
   const st=h("button","btn",ex?"Comenzar examen":"Comenzar");intro.append(st);box.append(intro);
   st.onclick=()=>{
     const qs=w.qs.map(q=>{if(q.t==="m"){const o=shuffle(q.o.map((x,i)=>({x,i})));return Object.assign({},q,{o:o.map(z=>z.x),c:o.findIndex(z=>z.i===q.c)})}return q});
-    let i=0,ok=0,timer=null;const end=Date.now()+w.minutes*60000,tm=h("div","tag","");
+    let i=0,ok=0,timer=null;const end=Date.now()+w.minutes*60000,tm=h("span","badge",""),xs=h("div","xstat"),ct=h("span",""),pb=h("div","bar"),pi=h("i");pb.append(pi);xs.append(ex?tm:h("span","badge","Práctica"),ct);
     const finish=()=>{clearInterval(timer);const tot=U(w),max=tot*w.pts,sc=ok*w.pts,rec={score:sc,max,pct:Math.round(sc/max*100),date:today(),n:ok,total:tot};
       S.work=S.work||{};const prev=S.work[w.id];if(ex||!prev||sc>=prev.score)S.work[w.id]=rec;save();C.innerHTML="";backBtn(C);result(C,w,rec,false)};
-    if(ex){C.insertBefore(tm,box);const tick=()=>{const l=Math.max(0,Math.round((end-Date.now())/1000));tm.textContent="⏱ "+Math.floor(l/60)+":"+String(l%60).padStart(2,"0");if(l<=0)finish()};tick();timer=setInterval(tick,1000)}
+    C.insertBefore(xs,box);C.insertBefore(pb,box);if(ex){const tick=()=>{const l=Math.max(0,Math.round((end-Date.now())/1000));tm.textContent="⏱ "+Math.floor(l/60)+":"+String(l%60).padStart(2,"0");if(l<=0)finish()};tick();timer=setInterval(tick,1000)}
     const show=()=>{if(i>=qs.length)return finish();const q=qs[i];box.innerHTML="";
       const c=h("div","card"),qq=h("div","q",q.q);qq.style.fontSize="clamp(22px,4vw,34px)";
-      if(q.part)c.append(h("div","tag",q.part));
-      c.append(h("div","hint","Pregunta "+(i+1)+" de "+qs.length+(ex?"":" · "+(q.t==="r"?q.pairs.length:1)*w.pts+" pts")),qq);
+      ct.textContent="Pregunta "+(i+1)+" de "+qs.length+(ex?"":" · "+(q.t==="r"?q.pairs.length:1)*w.pts+" pts");pi.style.width=(i/qs.length*100)+"%";
+      if(q.part)c.append(h("div","part",q.part));
+      c.append(qq);
       if(q.say){const r=h("div","row");[["🔊 Normal",1],["🐢 Lento",.5]].forEach(([l,v])=>{const b=h("button","btn sm",l);b.onclick=()=>tts(q.say,v);r.append(b)});c.append(r);setTimeout(()=>tts(q.say,1),300)}
       const fbd=h("div","fb"),next=()=>{i++;show()};
       const fb=msg=>{fbd.append(h("b","",msg));const n=h("button","btn",i===qs.length-1?"Ver resultado":"Siguiente");n.onclick=next;fbd.append(n);n.focus()};
       if(q.t==="m"){const o=h("div","opts");q.o.forEach((x,k)=>{const b=h("button","opt",x);b.onclick=()=>{[...o.children].forEach(y=>y.disabled=true);const good=k===q.c;if(good)ok++;if(ex){next();return}o.children[q.c].classList.add("ok");if(!good)b.classList.add("no");fb(good?"✔ ¡Bien!":"✖ La respuesta es: "+q.o[q.c])};o.append(b)});c.append(o)}
       else if(q.t==="w"){const inp=h("input");inp.style.width="100%";inp.setAttribute("aria-label","Tu respuesta");inp.autocomplete="off";inp.autocapitalize="none";const go=h("button","btn","Responder");go.style.marginTop="12px";
         go.onclick=()=>{if(inp.disabled)return;inp.disabled=true;go.disabled=true;const good=q.a.some(a=>nrm(a)===nrm(inp.value));if(good)ok++;if(ex){next();return}fb(good?"✔ ¡Bien!":"✖ La respuesta es: "+q.a[0])};inp.onkeydown=e=>{if(e.key==="Enter")go.onclick()};c.append(inp,go);setTimeout(()=>inp.focus(),0)}
-      else if(q.t==="r"){const rights=shuffle([...new Set(q.pairs.map(x=>x[1]))]),sels=[];
-        q.pairs.forEach(pr=>{const r=h("div","row");r.style.flexWrap="nowrap";const lb=h("b","",pr[0]);lb.style.minWidth="140px";const se=h("select");se.style.flex="1";se.setAttribute("aria-label",pr[0]);const o0=h("option","","— elige —");o0.value="";se.append(o0);rights.forEach(x=>{const o=h("option","",x);o.value=x;se.append(o)});sels.push(se);r.append(lb,se);c.append(r)});
-        const go=h("button","btn","Revisar");go.style.marginTop="12px";
-        go.onclick=()=>{if(go.disabled)return;go.disabled=true;let g=0;sels.forEach((se,k)=>{se.disabled=true;const good=se.value===q.pairs[k][1];if(good)g++;if(!ex)se.style.background=good?"var(--lime)":"#f6b7a9"});ok+=g;if(ex){next();return}fb("Acertaste "+g+" de "+q.pairs.length+(g<q.pairs.length?". Respuestas: "+q.pairs.map(x=>x[0]+" = "+x[1]).join(", "):" ✔"))};c.append(go)}
+      else if(q.t==="r"){const pal=["#d4e157","#82b4da","#e8b23a","#f08c75","#c3a6e8","#7fd1b9","#f2a6c0","#bdbdbd"],rights=shuffle(q.pairs.map(x=>x[1])),pair=q.pairs.map(()=>-1);let selL=-1,locked=false;
+        const grid=h("div","mt"),colL=h("div","mcol"),colR=h("div","mcol"),lb=[],rb=[];
+        const paint=()=>{lb.forEach((b,k)=>{b.style.background=pair[k]>=0?pal[k%8]:"";b.classList.toggle("on",pair[k]>=0);b.classList.toggle("sel",selL===k)});
+          rb.forEach((b,j)=>{const k=pair.indexOf(j);b.style.background=k>=0?pal[k%8]:"";b.classList.toggle("on",k>=0);b.querySelector("i").textContent=k>=0?"  ("+(k+1)+")":""})};
+        q.pairs.forEach((p,k)=>{const b=h("button","mb");b.append(h("span","",(k+1)+". "),document.createTextNode(p[0]));b.onclick=()=>{if(locked)return;if(selL===k)selL=-1;else{pair[k]=-1;selL=k}paint()};lb.push(b);colL.append(b)});
+        rights.forEach((t,j)=>{const b=h("button","mb");b.append(document.createTextNode(t),h("i",""));b.onclick=()=>{if(locked)return;const ow=pair.indexOf(j);if(selL>=0){if(ow>=0)pair[ow]=-1;pair[selL]=j;selL=-1}else if(ow>=0)pair[ow]=-1;paint()};rb.push(b);colR.append(b)});
+        grid.append(colL,colR);c.append(h("p","hint","Toca una palabra de la izquierda y luego su pareja de la derecha. Para cambiarla, vuelve a tocarla."),grid);
+        const go=h("button","btn","Revisar");go.style.marginTop="14px";
+        go.onclick=()=>{if(locked)return;locked=true;go.disabled=true;let g=0;
+          q.pairs.forEach((pr,k)=>{const good=pair[k]>=0&&rights[pair[k]]===pr[1];if(good)g++;if(!ex){lb[k].style.background=good?"var(--lime)":"#f6b7a9";lb[k].classList.add("on");lb[k].firstChild.textContent=(good?"✔ ":"✖ ")}});
+          ok+=g;if(ex){next();return}rb.forEach(x=>{x.style.background="";x.classList.remove("on")});
+          fb("Acertaste "+g+" de "+q.pairs.length+(g<q.pairs.length?". Respuestas: "+q.pairs.map(x=>x[0]+" = "+x[1]).join(", "):" ✔"))};
+        paint();c.append(go)}
       else if(q.t==="o"){const tk=q.s.split(" ");let order=shuffle(tk.map((t,k)=>({t,k}))),tries=0;while(order.every((o,k)=>o.k===k)&&tries++<6)order=shuffle(order);
         let line=[],tray=order;const ln=h("div","chips"),tr=h("div","chips"),go=h("button","btn","Revisar");
         const draw=()=>{ln.innerHTML="";tr.innerHTML="";line.forEach(o=>{const b=h("button","chip on",o.t);b.onclick=()=>{if(go.disabled)return;line=line.filter(x=>x!==o);tray.push(o);draw()};ln.append(b)});tray.forEach(o=>{const b=h("button","chip",o.t);b.onclick=()=>{if(go.disabled)return;tray=tray.filter(x=>x!==o);line.push(o);draw()};tr.append(b)})};
