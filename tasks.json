@@ -1,0 +1,419 @@
+[
+ {
+  "id": "mwcmmdpu0",
+  "level": "A0",
+  "type": "examenes",
+  "title": "Examen A0 · Unidad 1: Lo básico",
+  "desc": "Relaciona, opción múltiple, escucha, escritura y orden. Total: 100 puntos.",
+  "pts": 2,
+  "minutes": 40,
+  "opens": "",
+  "closes": "",
+  "qs": [
+   {
+    "t": "r",
+    "q": "Relaciona los saludos con su significado",
+    "pairs": [
+     [
+      "Hello",
+      "Hola"
+     ],
+     [
+      "Good morning",
+      "Buenos días"
+     ],
+     [
+      "Good night",
+      "Buenas noches"
+     ],
+     [
+      "Goodbye",
+      "Adiós"
+     ],
+     [
+      "See you tomorrow",
+      "Nos vemos mañana"
+     ]
+    ],
+    "part": "Parte 1 · Relaciona las columnas"
+   },
+   {
+    "t": "r",
+    "q": "Relaciona los colores",
+    "pairs": [
+     [
+      "red",
+      "rojo"
+     ],
+     [
+      "blue",
+      "azul"
+     ],
+     [
+      "green",
+      "verde"
+     ],
+     [
+      "yellow",
+      "amarillo"
+     ],
+     [
+      "purple",
+      "morado"
+     ]
+    ],
+    "part": "Parte 1 · Relaciona las columnas"
+   },
+   {
+    "t": "r",
+    "q": "Relaciona cada número escrito con su cifra",
+    "pairs": [
+     [
+      "seven",
+      "7"
+     ],
+     [
+      "twelve",
+      "12"
+     ],
+     [
+      "fifteen",
+      "15"
+     ],
+     [
+      "thirty",
+      "30"
+     ],
+     [
+      "one hundred",
+      "100"
+     ]
+    ],
+    "part": "Parte 1 · Relaciona las columnas"
+   },
+   {
+    "t": "r",
+    "q": "Relaciona los días de la semana",
+    "pairs": [
+     [
+      "Monday",
+      "lunes"
+     ],
+     [
+      "Wednesday",
+      "miércoles"
+     ],
+     [
+      "Friday",
+      "viernes"
+     ],
+     [
+      "Saturday",
+      "sábado"
+     ],
+     [
+      "Sunday",
+      "domingo"
+     ]
+    ],
+    "part": "Parte 1 · Relaciona las columnas"
+   },
+   {
+    "t": "m",
+    "q": "¿Cómo se dice «¿Cómo te llamas?» en inglés?",
+    "o": [
+     "What's your name?",
+     "Where are you from?",
+     "How old are you?",
+     "How are you?"
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "«I'm from Mexico.» significa…",
+    "o": [
+     "Soy de México.",
+     "Tengo México.",
+     "Me llamo México.",
+     "Hablo español."
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "¿Qué mes viene después de March?",
+    "o": [
+     "April",
+     "May",
+     "June",
+     "February"
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "¿Cuál es la nacionalidad de Canada?",
+    "o": [
+     "Canadian",
+     "Canada",
+     "Canadan",
+     "Candian"
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "¿Cómo se llama en inglés la letra Y? (pronunciación)",
+    "o": [
+     "uai",
+     "yei",
+     "ai",
+     "quei"
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "¿Cuál de estas palabras es una forma?",
+    "o": [
+     "circle",
+     "purple",
+     "Monday",
+     "Spanish"
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "«Good afternoon» se usa…",
+    "o": [
+     "En la tarde, de 12 a 6 pm",
+     "Al despertar",
+     "Para ir a dormir",
+     "Para despedirse de noche"
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "«It's three thirty.» significa…",
+    "o": [
+     "Son las tres y media.",
+     "Son las tres en punto.",
+     "Son las tres y cuarto.",
+     "Son las cuatro y media."
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "¿Qué estación del año es muy caliente?",
+    "o": [
+     "summer",
+     "winter",
+     "spring",
+     "fall"
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "¿Qué número es «forty»?",
+    "o": [
+     "40",
+     "14",
+     "4",
+     "44"
+    ],
+    "c": 0,
+    "part": "Parte 2 · Opción múltiple"
+   },
+   {
+    "t": "m",
+    "q": "Escucha y elige la respuesta",
+    "o": [
+     "Buenos días",
+     "Buenas noches",
+     "Adiós",
+     "Hola"
+    ],
+    "c": 0,
+    "say": "Good morning",
+    "part": "Parte 3 · Escucha"
+   },
+   {
+    "t": "m",
+    "q": "Escucha y elige la respuesta",
+    "o": [
+     "jueves",
+     "martes",
+     "sábado",
+     "domingo"
+    ],
+    "c": 0,
+    "say": "Thursday",
+    "part": "Parte 3 · Escucha"
+   },
+   {
+    "t": "m",
+    "q": "Escucha y elige el número",
+    "o": [
+     "15",
+     "50",
+     "13",
+     "5"
+    ],
+    "c": 0,
+    "say": "fifteen",
+    "part": "Parte 3 · Escucha"
+   },
+   {
+    "t": "w",
+    "q": "Escucha y escribe lo que oyes",
+    "a": [
+     "Nice to meet you"
+    ],
+    "say": "Nice to meet you",
+    "part": "Parte 3 · Escucha"
+   },
+   {
+    "t": "w",
+    "q": "Escucha y escribe lo que oyes",
+    "a": [
+     "orange"
+    ],
+    "say": "orange",
+    "part": "Parte 3 · Escucha"
+   },
+   {
+    "t": "w",
+    "q": "Escribe en inglés: rojo",
+    "a": [
+     "red"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "w",
+    "q": "Escribe en inglés: verde",
+    "a": [
+     "green"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "w",
+    "q": "Escribe en inglés: lunes",
+    "a": [
+     "Monday"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "w",
+    "q": "Escribe en inglés: Adiós",
+    "a": [
+     "Goodbye",
+     "Bye"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "w",
+    "q": "Completa: I ___ from Mexico.",
+    "a": [
+     "am"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "w",
+    "q": "Escribe el número 14 en inglés",
+    "a": [
+     "fourteen"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "w",
+    "q": "Escribe en inglés el mes de enero",
+    "a": [
+     "January"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "w",
+    "q": "Escribe en inglés: invierno",
+    "a": [
+     "winter"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "w",
+    "q": "Escribe en inglés: círculo",
+    "a": [
+     "circle"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "w",
+    "q": "Escribe la nacionalidad de Mexico (una palabra)",
+    "a": [
+     "Mexican"
+    ],
+    "part": "Parte 4 · Escritura"
+   },
+   {
+    "t": "o",
+    "q": "Ordena las palabras para formar la frase",
+    "s": "I am from Mexico",
+    "part": "Parte 5 · Ordena la frase"
+   },
+   {
+    "t": "o",
+    "q": "Ordena las palabras para formar la frase",
+    "s": "What is your name",
+    "part": "Parte 5 · Ordena la frase"
+   },
+   {
+    "t": "o",
+    "q": "Ordena las palabras para formar la frase",
+    "s": "Nice to meet you",
+    "part": "Parte 5 · Ordena la frase"
+   },
+   {
+    "t": "m",
+    "q": "«Friday» significa jueves.",
+    "o": [
+     "Verdadero",
+     "Falso"
+    ],
+    "c": 1,
+    "part": "Parte 6 · Verdadero o falso"
+   },
+   {
+    "t": "m",
+    "q": "«Good night» se dice para despedirse antes de dormir.",
+    "o": [
+     "Verdadero",
+     "Falso"
+    ],
+    "c": 0,
+    "part": "Parte 6 · Verdadero o falso"
+   }
+  ]
+ }
+]
