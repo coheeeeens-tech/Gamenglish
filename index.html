@@ -78,6 +78,16 @@ select{font:500 16px "DM Sans",sans-serif;padding:9px 12px;border:2px solid var(
 .mt{display:grid;grid-template-columns:1fr 1fr;gap:16px}.mcol{display:flex;flex-direction:column;gap:10px}
 .mb{font:600 17px "DM Sans",sans-serif;text-align:left;padding:13px 14px;border:2.5px solid var(--ink);border-radius:14px;background:var(--bg);color:var(--ink);cursor:pointer;min-height:52px}
 .mb.sel{outline:3px solid var(--coral);outline-offset:2px}.mb.on{color:#1b2e2a}.mb i{font-style:normal;font-weight:800}
+nav{flex-wrap:wrap}
+.gh{font:800 28px "Bricolage Grotesque",sans-serif;letter-spacing:-.03em;margin:28px 0 12px}
+.gg{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.gg2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.gc{background:var(--card);border:2.5px solid var(--ink);border-radius:20px;padding:18px 18px 12px}
+.gt{margin:0;font:800 22px "Bricolage Grotesque",sans-serif;letter-spacing:-.03em}.gn{color:var(--coral);font-weight:700;margin:2px 0 8px}
+.gu{font-size:14px;opacity:.85;font-style:italic;margin:0 0 6px}.gk{font-size:14px;margin:0 0 8px}.gx{font-size:13px;margin:8px 0 0;opacity:.85}
+.gr{display:flex;justify-content:space-between;align-items:center;gap:8px;width:100%;background:none;border:0;border-top:1px dashed var(--line);padding:8px 0;font:500 17px "DM Sans",sans-serif;color:var(--ink);cursor:pointer;text-align:left}
+.gr small{display:block;opacity:.7;font-size:14px}.gs{opacity:.5;flex:none}
+.gb{width:100%;border-collapse:collapse;font-size:15px}.gb th,.gb td{text-align:left;padding:7px 6px;border-bottom:0;border-top:1px dashed var(--line)}.gb th{font-size:13px;opacity:.7}.gi td:first-child{font-weight:700}
+@media(max-width:900px){.gg{grid-template-columns:repeat(2,1fr)}.gg2{grid-template-columns:1fr}}@media(max-width:600px){.gg{grid-template-columns:1fr}}
 .cal{width:100%;border-collapse:separate;border-spacing:5px;table-layout:fixed}.cal th{font-size:13px;opacity:.7}.cal td{padding:0}
 .cal button{width:100%;min-height:58px;border:2px solid var(--line);border-radius:12px;background:var(--card);color:var(--ink);font:700 16px "DM Sans",sans-serif;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 2px}
 .cal button.today{border-color:var(--coral)}.cal button.sel{background:var(--lime);color:#1b2e2a;border-color:#1b2e2a}
@@ -91,7 +101,7 @@ select{font:500 16px "DM Sans",sans-serif;padding:9px 12px;border:2px solid var(
 <body>
 <nav>
   <div class="logo"><i>G</i>GAMENGLISH</div>
-  <span class="who" id="who"></span><button class="btn o" id="calBtn" hidden>📅 Calendario</button><button class="btn o" id="adminBtn" hidden>⚙️ Administrar</button><button class="btn o" id="logout" hidden>Salir</button>
+  <span class="who" id="who"></span><button class="btn o" id="gramBtn" hidden>📚 Gramática</button><button class="btn o" id="calBtn" hidden>📅 Calendario</button><button class="btn o" id="adminBtn" hidden>⚙️ Administrar</button><button class="btn o" id="logout" hidden>Salir</button>
 </nav>
 
 <main id="loginView">
@@ -186,11 +196,12 @@ $("loginForm").onsubmit=async e=>{
 };
 $("logout").onclick=()=>{lsSet("gam_session",null);try{sessionStorage.removeItem("gam_tsession")}catch(e){}location.reload()};
 async function refreshAll(){if(!tok())return;try{STU=merge((await readJson("students.json")).data)}catch(e){}try{RES=(await readJson("resources.json")).data}catch(e){}try{WORK=(await readJson("tasks.json")).data}catch(e){}try{const c=(await readJson("calendar.json")).data;if(c&&!Array.isArray(c))CAL=mergeCal(c)}catch(e){}}
+$("gramBtn").onclick=()=>{view=view==="grammar"?"class":"grammar";render()};
 $("calBtn").onclick=()=>{view=view==="calendar"?"class":"calendar";render();if(view==="calendar"&&user.teacher)refreshAll().then(()=>{if(view==="calendar")render()})};
 $("adminBtn").onclick=()=>{view=view==="admin"?"class":"admin";render();if(view==="admin")refreshAll().then(()=>{if(view==="admin")render()})};
 function enter(u){
   user=u;S=Object.assign({xp:0,best:0},lsGet("gam_u_"+u.id,{}));
-  $("loginView").hidden=true;$("appView").hidden=false;$("logout").hidden=false;$("who").textContent=u.name;$("adminBtn").hidden=!u.teacher;$("calBtn").hidden=false;view="class";if(u.teacher)refreshAll().then(()=>{if(user===u)render()});
+  $("loginView").hidden=true;$("appView").hidden=false;$("logout").hidden=false;$("who").textContent=u.name;$("adminBtn").hidden=!u.teacher;$("calBtn").hidden=false;$("gramBtn").hidden=false;view="class";if(u.teacher)refreshAll().then(()=>{if(user===u)render()});
   $("title").textContent=u.teacher?"Panel del profesor":"Mi clase";
   $("sub").textContent=u.teacher?"Elige un nivel y una sección para agregar tus materiales.":"Elige tu nivel y empieza.";
   render();
@@ -199,14 +210,15 @@ function save(){lsSet("gam_u_"+user.id,S);const l=lsGet("gam_list",{});l[user.id
 
 /* navigation */
 function render(){
-  const adm=view==="admin"&&user.teacher,cal=view==="calendar";
-  ["lvls","lvlName","secs"].forEach(i=>$(i).hidden=adm||cal);
-  $("title").textContent=adm?"Administración":cal?"Calendario":(user.teacher?"Panel del profesor":"Mi clase");
-  $("sub").textContent=adm?"Alumnos y publicación de materiales.":cal?"Tus clases, tareas y exámenes en un solo lugar.":(user.teacher?"Elige un nivel y una sección para agregar tus materiales.":"Elige tu nivel y empieza.");
+  const adm=view==="admin"&&user.teacher,cal=view==="calendar",gr=view==="grammar";
+  ["lvls","lvlName","secs"].forEach(i=>$(i).hidden=adm||cal||gr);
+  $("title").textContent=adm?"Administración":cal?"Calendario":gr?"Tiempos verbales":(user.teacher?"Panel del profesor":"Mi clase");
+  $("sub").textContent=adm?"Alumnos y publicación de materiales.":cal?"Tus clases, tareas y exámenes en un solo lugar.":gr?"Todos los tiempos con ejemplos, audio y el verbo TO BE.":(user.teacher?"Elige un nivel y una sección para agregar tus materiales.":"Elige tu nivel y empieza.");
   $("adminBtn").textContent=adm?"← Volver a la clase":"⚙️ Administrar";
-  $("calBtn").textContent=cal?"← Volver a la clase":"📅 Calendario";
+  $("calBtn").textContent=cal?"← Volver a la clase":"📅 Calendario";$("gramBtn").textContent=gr?"← Volver a la clase":"📚 Gramática";
   if(adm){const C=$("content");C.innerHTML="";admin(C);return}
   if(cal){const C=$("content");C.innerHTML="";calendar(C);return}
+  if(gr){const C=$("content");C.innerHTML="";grammar(C);return}
   const L=$("lvls");L.innerHTML="";
   LEVELS.forEach(([k])=>{const b=h("button","pill",k);b.setAttribute("aria-pressed",k===lvl);b.onclick=()=>{lvl=k;showForm=false;render()};L.appendChild(b)});
   $("lvlName").textContent="Nivel "+lvl+" · "+LEVELS.find(x=>x[0]===lvl)[1];
@@ -582,6 +594,140 @@ function calendar(C){
   ev.onsubmit=async e=>{e.preventDefault();const v=ev.elements,er=ev.querySelector(".err");if(!tok()){er.textContent="Primero conecta GitHub en ⚙️ Administrar.";return}
     er.textContent="Guardando…";try{const item={id:Date.now().toString(36),date:v.d.value,title:v.t.value.trim(),time:v.h.value,note:v.n.value.trim()};await saveCal(c=>Object.assign({},c,{events:c.events.concat([item])}),"Agregar evento");calSel=item.date;render()}catch(x){er.textContent=x.message}};
   C.append(ev)}
+
+/* ===== gramática: tiempos verbales ===== */
+let gTab="tiempos",gVerb="answer";
+const IRR=`be|was / were|been|ser / estar
+begin|began|begun|empezar
+bite|bit|bitten|morder
+blow|blew|blown|soplar
+break|broke|broken|romper
+bring|brought|brought|traer
+build|built|built|construir
+buy|bought|bought|comprar
+catch|caught|caught|atrapar
+choose|chose|chosen|elegir
+come|came|come|venir
+cost|cost|cost|costar
+cut|cut|cut|cortar
+do|did|done|hacer
+draw|drew|drawn|dibujar
+drink|drank|drunk|beber
+drive|drove|driven|manejar
+eat|ate|eaten|comer
+fall|fell|fallen|caer
+feel|felt|felt|sentir
+fight|fought|fought|pelear
+find|found|found|encontrar
+fly|flew|flown|volar
+forget|forgot|forgotten|olvidar
+freeze|froze|frozen|congelar
+get|got|gotten / got|obtener
+give|gave|given|dar
+go|went|gone|ir
+grow|grew|grown|crecer
+hang|hung|hung|colgar
+have|had|had|tener
+hear|heard|heard|oír
+hide|hid|hidden|esconder
+hit|hit|hit|golpear
+hold|held|held|sostener
+hurt|hurt|hurt|lastimar
+keep|kept|kept|guardar
+know|knew|known|saber / conocer
+lead|led|led|guiar
+leave|left|left|salir / dejar
+lend|lent|lent|prestar
+let|let|let|permitir
+lose|lost|lost|perder
+make|made|made|hacer
+mean|meant|meant|significar
+meet|met|met|conocer / encontrarse
+pay|paid|paid|pagar
+put|put|put|poner
+read|read|read|leer
+ride|rode|ridden|andar en
+ring|rang|rung|sonar
+rise|rose|risen|subir
+run|ran|run|correr
+say|said|said|decir
+see|saw|seen|ver
+sell|sold|sold|vender
+send|sent|sent|enviar
+set|set|set|colocar
+shake|shook|shaken|sacudir
+show|showed|shown|mostrar
+shut|shut|shut|cerrar
+sing|sang|sung|cantar
+sit|sat|sat|sentarse
+sleep|slept|slept|dormir
+speak|spoke|spoken|hablar
+spend|spent|spent|gastar
+stand|stood|stood|pararse
+steal|stole|stolen|robar
+swim|swam|swum|nadar
+take|took|taken|tomar / llevar
+teach|taught|taught|enseñar
+tell|told|told|decir / contar
+think|thought|thought|pensar
+throw|threw|thrown|lanzar
+understand|understood|understood|entender
+wake|woke|woken|despertar
+wear|wore|worn|llevar puesto
+win|won|won|ganar
+write|wrote|written|escribir`.split("\n").map(l=>l.split("|").map(x=>x.trim())),IRM={};IRR.forEach(r=>IRM[r[0]]=r);
+function forms(v){v=v.toLowerCase().trim();const ir=IRM[v],cy=/[^aeiou]y$/.test(v),
+  dbl=/^[^aeiou]*[aeiou][^aeiouwxy]$/.test(v)||["begin","forget","prefer","admit","occur","refer","regret","permit","control"].includes(v);
+  const s=v==="have"?"has":/(s|sh|ch|x|z|o)$/.test(v)?v+"es":cy?v.slice(0,-1)+"ies":v+"s";
+  const ing=v==="be"?"being":/ie$/.test(v)?v.slice(0,-2)+"ying":/[^e]e$/.test(v)?v.slice(0,-1)+"ing":dbl?v+v.slice(-1)+"ing":v+"ing";
+  const past=ir?ir[1].split(" / ")[0]:/e$/.test(v)?v+"d":cy?v.slice(0,-1)+"ied":dbl?v+v.slice(-1)+"ed":v+"ed";
+  return{base:v,s,ing,past,pp:ir?ir[2].split(" / ")[0]:past}}
+const GP=["I","You","He / she / it","We","They"];
+const TS=[
+["Present Simple","Presente simple","Presente","Hábitos, rutinas y hechos generales","Sujeto + verbo (+s en he / she / it)","every day, always, usually","don’t / doesn’t + verbo base","Do / Does + sujeto + verbo base",(f,k)=>k===2?f.s:f.base],
+["Present Continuous","Presente continuo","Presente","Acciones que pasan ahora mismo","Sujeto + am / is / are + verbo-ing","now, at the moment, today","am / is / are + not + verbo-ing","Am / Is / Are + sujeto + verbo-ing",(f,k)=>["am","are","is","are","are"][k]+" "+f.ing],
+["Present Perfect","Presente perfecto","Presente","Acciones del pasado con relación al presente","Sujeto + have / has + participio","already, yet, ever, never, just","haven’t / hasn’t + participio","Have / Has + sujeto + participio",(f,k)=>(k===2?"has ":"have ")+f.pp],
+["Present Perfect Continuous","Presente perfecto continuo","Presente","Acciones que empezaron antes y siguen","Sujeto + have / has been + verbo-ing","for, since, all day","haven’t / hasn’t been + verbo-ing","Have / Has + sujeto + been + verbo-ing",(f,k)=>(k===2?"has":"have")+" been "+f.ing],
+["Past Simple","Pasado simple","Pasado","Acciones terminadas en el pasado","Sujeto + verbo en pasado","yesterday, last week, ago","didn’t + verbo base","Did + sujeto + verbo base",(f,k)=>f.past],
+["Past Continuous","Pasado continuo","Pasado","Acciones en progreso en un momento del pasado","Sujeto + was / were + verbo-ing","while, at 5 pm yesterday","wasn’t / weren’t + verbo-ing","Was / Were + sujeto + verbo-ing",(f,k)=>(k===0||k===2?"was ":"were ")+f.ing],
+["Past Perfect","Pasado perfecto","Pasado","Una acción anterior a otra en el pasado","Sujeto + had + participio","before, by the time, already","hadn’t + participio","Had + sujeto + participio",(f,k)=>"had "+f.pp],
+["Past Perfect Continuous","Pasado perfecto continuo","Pasado","Cuánto duró una acción antes de otro momento del pasado","Sujeto + had been + verbo-ing","for, since, before","hadn’t been + verbo-ing","Had + sujeto + been + verbo-ing",(f,k)=>"had been "+f.ing],
+["Future Simple","Futuro simple","Futuro","Decisiones, predicciones y promesas","Sujeto + will + verbo base","tomorrow, next week, soon","won’t + verbo base","Will + sujeto + verbo base",(f,k)=>"will "+f.base],
+["Future Continuous","Futuro continuo","Futuro","Acciones en progreso en el futuro","Sujeto + will be + verbo-ing","this time tomorrow, at 8 pm tonight","won’t be + verbo-ing","Will + sujeto + be + verbo-ing",(f,k)=>"will be "+f.ing],
+["Future Perfect","Futuro perfecto","Futuro","Acciones que ya estarán terminadas en un momento futuro","Sujeto + will have + participio","by Friday, by next year, by the time","won’t have + participio","Will + sujeto + have + participio",(f,k)=>"will have "+f.pp],
+["Future Perfect Continuous","Futuro perfecto continuo","Futuro","Cuánto habrá durado una acción hasta un momento futuro","Sujeto + will have been + verbo-ing","by next year, for + tiempo","won’t have been + verbo-ing","Will + sujeto + have been + verbo-ing",(f,k)=>"will have been "+f.ing]];
+const BE=[["Present Simple", "Presente simple · soy, eres, es, estoy…", "Hechos, descripciones, lugares y estados de ahora · Sujeto + am / is / are", [["I am (I’m)", "I am not (I’m not)", "Am I?"], ["You are (You’re)", "You are not (aren’t)", "Are you?"], ["He / she / it is (He’s)", "He / she / it is not (isn’t)", "Is he / she / it?"], ["We are (We’re)", "We are not (aren’t)", "Are we?"], ["They are (They’re)", "They are not (aren’t)", "Are they?"]], "I am a teacher. · She is tired. · They are at home."], ["Past Simple", "Pasado simple · era, estaba, fue…", "Cómo o dónde estaba algo en el pasado · Sujeto + was / were", [["I was", "I was not (wasn’t)", "Was I?"], ["You were", "You were not (weren’t)", "Were you?"], ["He / she / it was", "He / she / it was not (wasn’t)", "Was he / she / it?"], ["We were", "We were not (weren’t)", "Were we?"], ["They were", "They were not (weren’t)", "Were they?"]], "I was at school yesterday. · They were happy."], ["Future Simple", "Futuro simple · seré, estaré…", "Cómo o dónde estará algo en el futuro · Sujeto + will be", [["I will be (I’ll be)", "I will not be (I won’t be)", "Will I be?"], ["You will be (You’ll be)", "You will not be (You won’t be)", "Will you be?"], ["He / she / it will be (He’ll be)", "He / she / it will not be (He won’t be)", "Will he / she / it be?"], ["We will be (We’ll be)", "We will not be (We won’t be)", "Will we be?"], ["They will be (They’ll be)", "They will not be (They won’t be)", "Will they be?"]], "I will be at home tomorrow. · She will be late."], ["Present Perfect", "Presente perfecto · he sido, he estado…", "Estados que empezaron antes y siguen o importan hoy · Sujeto + have / has been", [["I have been (I’ve been)", "I have not been (I haven’t been)", "Have I been?"], ["You have been (You’ve been)", "You have not been (You haven’t been)", "Have you been?"], ["He / she / it has been (He’s been)", "He / she / it has not been (He hasn’t been)", "Has he / she / it been?"], ["We have been (We’ve been)", "We have not been (We haven’t been)", "Have we been?"], ["They have been (They’ve been)", "They have not been (They haven’t been)", "Have they been?"]], "I have been here since five. · He has been sick for two days."], ["Past Perfect", "Pasado perfecto · había sido, había estado…", "Un estado anterior a otro momento del pasado · Sujeto + had been", [["I had been (I’d been)", "I had not been (I hadn’t been)", "Had I been?"], ["You had been (You’d been)", "You had not been (You hadn’t been)", "Had you been?"], ["He / she / it had been (He’d been)", "He / she / it had not been (He hadn’t been)", "Had he / she / it been?"], ["We had been (We’d been)", "We had not been (We hadn’t been)", "Had we been?"], ["They had been (They’d been)", "They had not been (They hadn’t been)", "Had they been?"]], "I had been there before. · She had been tired all day."], ["Future Perfect", "Futuro perfecto · habré sido, habré estado…", "Un estado que ya habrá pasado en un momento futuro · Sujeto + will have been", [["I will have been (I’ll have been)", "I will not have been (I won’t have been)", "Will I have been?"], ["You will have been (You’ll have been)", "You will not have been (You won’t have been)", "Will you have been?"], ["He / she / it will have been (He’ll have been)", "He / she / it will not have been (He won’t have been)", "Will he / she / it have been?"], ["We will have been (We’ll have been)", "We will not have been (We won’t have been)", "Will we have been?"], ["They will have been (They’ll have been)", "They will not have been (They won’t have been)", "Will they have been?"]], "By Friday, I will have been here a week."]];
+const OT=[["Future with going to", "Futuro con going to", "Planes e intenciones, y predicciones con evidencia · Sujeto + am / is / are + going to + verbo", [["I am going to study tonight.", "Voy a estudiar esta noche."], ["You are going to love it.", "Te va a encantar."], ["She is going to travel next week.", "Ella va a viajar la próxima semana."], ["We are going to eat pizza.", "Vamos a comer pizza."], ["They are not going to come.", "Ellos no van a venir."]]], ["Used to", "Hábitos del pasado", "Cosas que se hacían antes y ya no · Sujeto + used to + verbo", [["I used to play soccer every day.", "Yo jugaba fútbol todos los días."], ["She used to live in Puebla.", "Ella vivía en Puebla."], ["We used to eat there.", "Antes comíamos ahí."], ["They didn’t use to like fish.", "Antes no les gustaba el pescado."], ["Did you use to study at night?", "¿Antes estudiabas de noche?"]]], ["Imperative", "Imperativo", "Órdenes, instrucciones y consejos · Verbo base, sin sujeto", [["Open your book.", "Abre tu libro."], ["Don’t talk.", "No hables."], ["Please sit down.", "Siéntate, por favor."], ["Let’s go!", "¡Vámonos!"], ["Be quiet.", "Guarda silencio."]]], ["Modal verbs", "Verbos modales", "Habilidad, permiso, consejo y obligación · Sujeto + modal + verbo base", [["I can swim.", "Sé nadar."], ["Could you help me?", "¿Podrías ayudarme?"], ["You should sleep more.", "Deberías dormir más."], ["We must study.", "Debemos estudiar."], ["May I come in?", "¿Puedo pasar?"]]], ["First Conditional", "Primer condicional", "Situaciones reales o posibles en el futuro · If + presente simple, will + verbo", [["If it rains, we will stay home.", "Si llueve, nos quedaremos en casa."], ["If you study, you will pass.", "Si estudias, aprobarás."], ["She will call you if she has time.", "Ella te llamará si tiene tiempo."], ["If I see him, I will tell him.", "Si lo veo, se lo diré."], ["We won’t go if it snows.", "No iremos si nieva."]]], ["Second Conditional", "Segundo condicional", "Situaciones imaginarias o poco probables · If + pasado simple, would + verbo", [["If I had money, I would travel.", "Si tuviera dinero, viajaría."], ["If she knew, she would tell us.", "Si ella supiera, nos diría."], ["What would you do if you won?", "¿Qué harías si ganaras?"], ["I would buy a house if I were rich.", "Compraría una casa si fuera rico."], ["If we had time, we would help.", "Si tuviéramos tiempo, ayudaríamos."]]]];
+function grammar(C){
+  const tabs=h("div","tabs");[["tiempos","⏳ Los 12 tiempos"],["be","🅱️ Verbo TO BE"],["otras","➕ Otras formas"],["irreg","📖 Irregulares"]].forEach(([k,l])=>{const b=h("button","tab",l);b.setAttribute("aria-pressed",k===gTab);b.onclick=()=>{gTab=k;render()};tabs.append(b)});
+  C.append(tabs);const box=h("div");C.append(box);({tiempos:gTiempos,be:gBe,otras:gOtras,irreg:gIrreg})[gTab](box)}
+function tcard(t,f){const c=h("div","gc");c.append(h("h4","gt",t[0]),h("div","gn",t[1]),h("p","gu",t[3]+" · "+t[4]),h("p","gk","Palabras clave: "+t[5]));
+  GP.forEach((p,k)=>{const sen=p+" "+t[8](f,k)+".",r=h("button","gr");r.append(h("span","",sen),h("span","gs","🔊"));r.onclick=()=>tts(sen.replace("He / she / it","He"),.9);c.append(r)});
+  c.append(h("p","gx","➖ Negativo: "+t[6]),h("p","gx","❓ Pregunta: "+t[7]));return c}
+function gTiempos(box){
+  const ctl=h("div","card");ctl.style.marginBottom="18px";ctl.append(h("label","","Escribe un verbo en inglés (forma base) y mira todos los tiempos:"));
+  const row=h("div","row"),inp=h("input"),info=h("p","hint",""),cards=h("div");inp.value=gVerb;inp.style.width="200px";inp.autocapitalize="none";inp.setAttribute("aria-label","Verbo");row.append(inp);
+  const draw=f=>{cards.innerHTML="";["Presente","Pasado","Futuro"].forEach(g=>{cards.append(h("div","gh",g));const gg=h("div","gg");TS.filter(t=>t[2]===g).forEach(t=>gg.append(tcard(t,f)));cards.append(gg)})};
+  const upd=()=>{const v=inp.value.trim().toLowerCase();if(!/^[a-z]{2,15}$/.test(v)){info.textContent="Escribe solo letras (de 2 a 15).";return}
+    if(v==="be"){info.textContent="El verbo TO BE es especial. Míralo en la pestaña “Verbo TO BE”.";return}
+    gVerb=v;const f=forms(v);info.textContent=f.base+" → "+f.s+" (he / she / it) · "+f.ing+" · "+f.past+" · "+f.pp+(IRM[v]?"  ·  verbo irregular":"  ·  verbo regular (si es irregular y no está en la lista, revisa la pestaña Irregulares)");draw(f)};
+  ["play","study","watch","go","eat","have","answer"].forEach(v=>{const b=h("button","btn sm o",v);b.onclick=()=>{inp.value=v;upd()};row.append(b)});
+  inp.oninput=upd;ctl.append(row,info);box.append(ctl,cards);upd()}
+function gBe(box){
+  const c0=h("div","card");c0.style.marginBottom="18px";c0.append(h("div","d","El verbo TO BE"),h("p","","Significa ser o estar. Es irregular, por eso cambia de forma: presente am / is / are, pasado was / were, participio been. Toca una fila para escucharla."));c0.firstChild.style.fontSize="28px";box.append(c0);
+  const g=h("div","gg2");BE.forEach(b=>{const c=h("div","gc"),t=h("table","gb");c.append(h("h4","gt",b[0]),h("div","gn",b[1]),h("p","gu",b[2]));
+    t.innerHTML="<thead><tr><th>Afirmativa</th><th>Negativa</th><th>Pregunta</th></tr></thead><tbody></tbody>";
+    b[3].forEach(r=>{const tr=h("tr");r.forEach(x=>tr.append(h("td","",x)));tr.style.cursor="pointer";tr.onclick=()=>tts(r[0].replace(/\s*\(.*?\)/g,"").replace("He / she / it","He"),.9);t.querySelector("tbody").append(tr)});
+    c.append(t,h("p","gx","Ejemplos: "+b[4]));g.append(c)});box.append(g)}
+function gOtras(box){const g=h("div","gg");OT.forEach(o=>{const c=h("div","gc");c.append(h("h4","gt",o[0]),h("div","gn",o[1]),h("p","gu",o[2]));
+  o[3].forEach(r=>{const b=h("button","gr"),l=h("span");l.append(document.createTextNode(r[0]),h("small","",r[1]));b.append(l,h("span","gs","🔊"));b.onclick=()=>tts(r[0],.9);c.append(b)});g.append(c)});box.append(g)}
+function gIrreg(box){
+  const c=h("div","card"),inp=h("input"),tb=h("table","gb gi");inp.placeholder="Busca un verbo… (go, comer, ate)";inp.setAttribute("aria-label","Buscar verbo");inp.style.width="100%";
+  tb.innerHTML="<thead><tr><th>Base</th><th>Pasado</th><th>Participio</th><th>Español</th></tr></thead><tbody></tbody>";c.append(inp,tb,h("p","gx","Toca una fila para escuchar los tres verbos."));box.append(c);
+  const draw=()=>{const q=inp.value.trim().toLowerCase(),b=tb.querySelector("tbody");b.innerHTML="";
+    IRR.filter(r=>!q||r.join(" ").toLowerCase().includes(q)).forEach(r=>{const tr=h("tr");r.forEach(x=>tr.append(h("td","",x)));tr.style.cursor="pointer";tr.onclick=()=>tts(r[0]+", "+r[1].split(" / ")[0]+", "+r[2].split(" / ")[0],.8);b.append(tr)});
+    if(!b.children.length){const tr=h("tr"),td=h("td","","No encontré ese verbo.");td.colSpan=4;tr.append(td);b.append(tr)}};
+  inp.oninput=draw;draw()}
 
 ready.then(()=>{let ts=null;try{ts=sessionStorage.getItem("gam_tsession")}catch(e){}
   const sid=lsGet("gam_session",null);
